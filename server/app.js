@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { makemongoConnection } from "./src/mongodb/mongodb.js";
 import aircraftsRoutes from "./src/routes/aircrafts.routes.js"
+import aircraftsTypesRoutes from "./src/routes/aircraftsTypes.routes.js"
 
 const app = experss();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,8 @@ app.use(cors());
 await makemongoConnection();
 
 app.use("/api/aircrafts", aircraftsRoutes);
+
+app.use("/api/aircraftstypes", aircraftsTypesRoutes);
 
 app.get("/", async (request, response) => {
     response.json({
