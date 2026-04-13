@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addAircraft, getAircraftById, getAircraftByName, getAllAircrafts } from "../services/aircrafts.service.js";
+import { addAircraft, deleteAircraft, getAircraftById, getAircraftByName, getAllAircrafts } from "../services/aircrafts.service.js";
 
 const router = express.Router();
 
@@ -30,6 +30,14 @@ router.get("/name/:name", asyncHandler(async (request, response) => {
 
     const aircraft = await getAircraftByName(name);
     response.send(aircraft)
+}));
+
+router.delete("/:id", asyncHandler(async (request, response) => {
+    const id = request.params.id;
+
+    const result = await deleteAircraft(id);
+
+    response.send({ message: "The aircraft removed succeessfully", result })
 }))
 
 export default router;

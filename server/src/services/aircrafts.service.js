@@ -49,4 +49,19 @@ export const getAllAircrafts = async (filter = {}) => {
     if (!result) throw new Error("The results are not found :(");
 
     return result;
-} 
+}
+
+export const deleteAircraft = async (aircraftId) => {
+    if (!ObjectId.isValid(aircraftId)) {
+        throw new Error("Invalid ID format");
+    }
+
+    if (!aircraftsCollection) {
+        aircraftsCollection = db?.collection("aircrafts");
+    }
+
+    const result = await aircraftsCollection.deleteOne({ _id: new ObjectId(aircraftId) });
+    if (result.deletedCount === 0) throw new Error("The results are not found :(")
+
+    return result;
+}
