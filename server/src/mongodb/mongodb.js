@@ -33,3 +33,4 @@ export const closeConnection = async () => {
 };
 
 export const db = await getdb(process.env.DB_NAME);
+export const aircraftsCollection = db?.collection("aircrafts");
