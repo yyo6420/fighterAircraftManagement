@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addType } from "../services/aircraftsTypes.service.js";
+import { addType, getTypeByName } from "../services/aircraftsTypes.service.js";
 
 const router = express.Router();
 
@@ -11,6 +11,13 @@ router.post("/", asyncHandler(async (request, response) => {
     const newType = await addType(name, maxSpeed, fuel);
 
     response.status(201).send({ message: "The new Type added successfully", newType });
-}))
+}));
+
+router.get("/name/:name", asyncHandler(async (request, response) => {
+    const name = request.params.name;
+
+    const type = await getTypeByName(name);
+    response.send(type);
+}));
 
 export default router;
