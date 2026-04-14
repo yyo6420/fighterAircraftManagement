@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addType, getAllTypes, getTypeById, getTypeByName } from "../services/aircraftsTypes.service.js";
+import { addType, deleteType, getAllTypes, getTypeById, getTypeByName } from "../services/aircraftsTypes.service.js";
 
 const router = express.Router();
 
@@ -30,6 +30,14 @@ router.get("/id/:id", asyncHandler(async (request, response) => {
 
     const type = await getTypeById(id);
     response.send(type);
+}));
+
+router.delete("/:id", asyncHandler(async (request, response) => {
+    const id = request.params.id;
+
+    const result = await deleteType(id);
+
+    response.send({ message: "The type removed succeessfully", result })
 }))
 
 export default router;

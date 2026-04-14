@@ -61,7 +61,7 @@ export const deleteAircraft = async (aircraftId) => {
     }
 
     const result = await aircraftsCollection.deleteOne({ _id: new ObjectId(aircraftId) });
-    if (result.deletedCount === 0) throw new Error("The results are not found :(")
+    if (result.deletedCount === 0) throw new Error("The results are not found :(");
 
     return result;
 }

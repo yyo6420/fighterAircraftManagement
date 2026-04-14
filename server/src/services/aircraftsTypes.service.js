@@ -52,3 +52,18 @@ export const getAllTypes = async (filter = {}) => {
 
     return result;
 }
+
+export const deleteType = async (typeId) => {
+    if (!aircraftsTypesCollection) {
+        aircraftsTypesCollection = db?.collection("aircraftsTypes")
+    };
+
+    if (!ObjectId.isValid(typeId)) {
+        throw new Error("Invalid ID format");
+    }
+
+    const result = await aircraftsTypesCollection.deleteOne({ _id: new ObjectId(typeId) });
+    if (result.deletedCount === 0) throw new Error("The results are not found :(");
+
+    return result;
+}
