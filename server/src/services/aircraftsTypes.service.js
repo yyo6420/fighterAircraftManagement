@@ -41,3 +41,14 @@ export const getTypeById = async (typeId) => {
 
     return result;
 }
+
+export const getAllTypes = async (filter = {}) => {
+    if (!aircraftsTypesCollection) {
+        aircraftsTypesCollection = db?.collection("aircraftsTypes")
+    };
+
+    const result = aircraftsTypesCollection.find(filter).toArray();
+    if (!result) throw new Error("The results are not found :(");
+
+    return result;
+}
