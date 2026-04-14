@@ -25,12 +25,12 @@ export const getAircraftByName = async (aircraftName) => {
 }
 
 export const getAircraftById = async (aircraftId) => {
-    if (!ObjectId.isValid(aircraftId)) {
-        throw new Error("Invalid ID format");
-    }
-
     if (!aircraftsCollection) {
         aircraftsCollection = db?.collection("aircrafts");
+    }
+
+    if (!ObjectId.isValid(aircraftId)) {
+        throw new Error("Invalid ID format");
     }
 
     const result = await aircraftsCollection.findOne({ _id: new ObjectId(aircraftId) });
@@ -52,12 +52,12 @@ export const getAllAircrafts = async (filter = {}) => {
 }
 
 export const deleteAircraft = async (aircraftId) => {
-    if (!ObjectId.isValid(aircraftId)) {
-        throw new Error("Invalid ID format");
-    }
-
     if (!aircraftsCollection) {
         aircraftsCollection = db?.collection("aircrafts");
+    }
+
+    if (!ObjectId.isValid(aircraftId)) {
+        throw new Error("Invalid ID format");
     }
 
     const result = await aircraftsCollection.deleteOne({ _id: new ObjectId(aircraftId) });

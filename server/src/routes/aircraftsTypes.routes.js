@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addType, getTypeByName } from "../services/aircraftsTypes.service.js";
+import { addType, getTypeById, getTypeByName } from "../services/aircraftsTypes.service.js";
 
 const router = express.Router();
 
@@ -19,5 +19,12 @@ router.get("/name/:name", asyncHandler(async (request, response) => {
     const type = await getTypeByName(name);
     response.send(type);
 }));
+
+router.get("/id/:id", asyncHandler(async (request, response) => {
+    const id = request.params.id;
+
+    const type = await getTypeById(id);
+    response.send(type);
+}))
 
 export default router;
