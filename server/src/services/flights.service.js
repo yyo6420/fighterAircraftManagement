@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { flightCollection, db } from "../mongodb/mongodb.js"
 
 export const addFlight = async (aircraftId, takeoffTime, landingTime, latitude, longitude) => {
@@ -15,3 +16,19 @@ export const addFlight = async (aircraftId, takeoffTime, landingTime, latitude, 
 
     return { id: result.insertedId, result };
 };
+
+export const getFlightById = async (flightId) => {
+    if (!flightCollection) {
+        flightCollection = db?.collection("flights");
+    };
+
+    if (!ObjectId.isValid(flightId)) {
+        throw new Error("Invalid ID format");
+    }
+
+    const result = await flightCollection.findOne({ _id: new ObjectId(flightId) });
+
+    if (!result) throw new Error("Flight not found");
+
+    return result;
+}
