@@ -17,6 +17,25 @@ export const addFlight = async (aircraftId, takeoffTime, landingTime, latitude, 
     return { id: result.insertedId, result };
 };
 
+export const updatedLandingTimeById = async (flightId, newLandingTime) => {
+    if (!flightCollection) {
+        flightCollection = db?.collection("flights");
+    };
+
+    if (!ObjectId.isValid(flightId)) {
+        throw new Error("Invalid ID format");
+    }
+
+    const result = await flightCollection.updateOne(
+        { _id: new ObjectId(flightId) },
+        { $set: { landingTime: newLandingTime } }
+    );
+
+    if (!result) throw new Error("Flight not found");
+
+    return result;
+}
+
 export const getFlightById = async (flightId) => {
     if (!flightCollection) {
         flightCollection = db?.collection("flights");
