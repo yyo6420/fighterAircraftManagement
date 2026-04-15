@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addFlight, getFlightById } from "../services/flights.service.js";
+import { addFlight, getFlightById, getFlightsByAircraftId } from "../services/flights.service.js";
 
 const router = express.Router();
 
@@ -21,5 +21,12 @@ router.get("/id/:id", asyncHandler(async (request, response) => {
     const flight = await getFlightById(id);
     response.send(flight);
 }));
+
+router.get("/aircraft/:id", asyncHandler(async (request, response) => {
+    const aircraftId = request.params.id;
+
+    const flights = await getFlightsByAircraftId(aircraftId);
+    response.send(flights);
+}))
 
 export default router;
