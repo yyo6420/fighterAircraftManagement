@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addFlight, getFlightById, getFlightsByAircraftId } from "../services/flights.service.js";
+import { addFlight, getAllFligts, getFlightById, getFlightsByAircraftId } from "../services/flights.service.js";
 
 const router = express.Router();
 
@@ -13,6 +13,11 @@ router.post("/", asyncHandler(async (request, response) => {
     const newFlight = await addFlight(id, takeoffTime, landingTime || null, latitude, longitude);
 
     response.status(201).send({ message: "The flight details have been successfully updated", newFlight });
+}));
+
+router.get("/", asyncHandler(async (request, response) => {
+    const flights = await getAllFligts();
+    response.send(flights);
 }));
 
 router.get("/id/:id", asyncHandler(async (request, response) => {

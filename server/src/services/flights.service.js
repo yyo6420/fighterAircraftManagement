@@ -43,3 +43,14 @@ export const getFlightsByAircraftId = async (aircraftId) => {
 
     return result;
 }
+
+export const getAllFligts = async (filter = {}) => {
+    if (!flightCollection) {
+        flightCollection = db?.collection("flights");
+    };
+
+    const result = await flightCollection.find(filter).toArray();
+    if (!result) throw new Error("The results are not found :(");
+
+    return result;
+}
