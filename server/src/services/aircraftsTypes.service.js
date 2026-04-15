@@ -10,7 +10,7 @@ export const addType = async (typeName, maxSpeedKph, fuelCapacityLiters) => {
         typeName,
         maxSpeedKph,
         fuelCapacityLiters
-    })
+    });
 
     return { id: result.insertedId, typeName }
 };
@@ -47,7 +47,7 @@ export const getAllTypes = async (filter = {}) => {
         aircraftsTypesCollection = db?.collection("aircraftsTypes")
     };
 
-    const result = aircraftsTypesCollection.find(filter).toArray();
+    const result = await aircraftsTypesCollection.find(filter).toArray();
     if (!result) throw new Error("The results are not found :(");
 
     return result;

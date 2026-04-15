@@ -10,6 +10,7 @@ export const addAircraft = async (aircraftName, aircraftType) => {
         aircraftName,
         aircraftType
     });
+    
     return { id: result.insertedId, aircraftName }
 }
 
@@ -45,7 +46,7 @@ export const getAllAircrafts = async (filter = {}) => {
         aircraftsCollection = db?.collection("aircrafts")
     }
 
-    const result = aircraftsCollection.find(filter).toArray();
+    const result = await aircraftsCollection.find(filter).toArray();
     if (!result) throw new Error("The results are not found :(");
 
     return result;

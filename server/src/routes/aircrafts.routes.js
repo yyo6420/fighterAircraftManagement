@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", asyncHandler(async (request, response) => {
     const { aircraftName, aircraftType } = request.body;
-    if (!aircraftName || !aircraftType) throw new Error("you must type a aircraftName and aircraftType");
+    if (!aircraftName || !aircraftType) throw new Error("you must type an aircraftName and aircraftType");
 
     const aircraft = await addAircraft(aircraftName, aircraftType);
 

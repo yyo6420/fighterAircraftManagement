@@ -2,8 +2,9 @@ import experss from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { makemongoConnection } from "./src/mongodb/mongodb.js";
-import aircraftsRoutes from "./src/routes/aircrafts.routes.js"
-import aircraftsTypesRoutes from "./src/routes/aircraftsTypes.routes.js"
+import aircraftsRoutes from "./src/routes/aircrafts.routes.js";
+import aircraftsTypesRoutes from "./src/routes/aircraftsTypes.routes.js";
+import flightsRoutes from "./src/routes/flights.routes.js";
 
 const app = experss();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,8 @@ await makemongoConnection();
 app.use("/api/aircrafts", aircraftsRoutes);
 
 app.use("/api/aircraftstypes", aircraftsTypesRoutes);
+
+app.use("/api/flights", flightsRoutes);
 
 app.get("/", async (request, response) => {
     response.json({
