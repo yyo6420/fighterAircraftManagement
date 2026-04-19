@@ -3,7 +3,11 @@ function AircraftsPool() {
   return (
     <>
       <NavBar />
-      <div>AircraftsPool</div>
+      <div>
+        <h1 className="title aircraftsPoolTitle">
+          מאגר מטוסים
+        </h1>
+      </div>
     </>
   )
 }

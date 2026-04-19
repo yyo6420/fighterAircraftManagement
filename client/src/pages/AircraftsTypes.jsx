@@ -4,7 +4,11 @@ function AircraftsTypes() {
   return (
     <>
       <NavBar />
-      <div>AircraftsTypes</div>
+      <div>
+        <h1 className="title aircraftsTypesTitle">
+          סוגי מטוסים
+        </h1>
+      </div>
     </>
   )
 }

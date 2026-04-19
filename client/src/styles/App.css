@@ -26,8 +26,11 @@
     border-radius: 100%;
 }
 
-.welcomeTitle {
+.title {
     font-size: 8rem;
+}
+
+.welcome {
     color: rgb(98, 133, 98);
 }
 
@@ -112,4 +115,16 @@
 .goHome:hover {
     background-color: azure;
     color: darkblue;
+}
+
+.aircraftsPoolTitle {
+    color: rgb(117, 10, 6);
+}
+
+.aircraftsTypesTitle {
+    color: rgb(116, 116, 28)
+}
+
+.flightDatabasetitle {
+    color: rgb(130, 216, 44);
 }

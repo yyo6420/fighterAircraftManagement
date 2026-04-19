@@ -4,7 +4,11 @@ function FlightDatabase() {
   return (
     <>
       <NavBar />
-      <div>FlightDatabase</div>
+      <div>
+        <h1 className="title flightDatabasetitle">
+          מאגר טיסות
+        </h1>
+      </div>
     </>
   )
 }

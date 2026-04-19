@@ -10,7 +10,7 @@ function HomePage() {
                 </div>
             </nav>
 
-            <h1 className="welcomeTitle">ברוכים הבאים </h1>
+            <h1 className="title welcome">ברוכים הבאים </h1>
 
             <div className="menu">
                 <Link to={"/aircraftsPool"} className="menuButton aircraftsPool">מאגר מטוסים</Link>
