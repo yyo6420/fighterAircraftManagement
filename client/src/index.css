@@ -8,8 +8,8 @@
 body {
   display: flex;
   flex-direction: column;
-  text-align: center;
   gap: 1rem;
+  text-align: center;
   align-items: center;
   background-color: #2b2b2b;
   color: #e0e0e0;

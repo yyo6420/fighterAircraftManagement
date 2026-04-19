@@ -1,14 +1,15 @@
 import NavBar from "../components/NavBar.jsx"
+import Table from "../components/Table.jsx"
 
 function FlightDatabase() {
   return (
     <>
       <NavBar />
-      <div>
-        <h1 className="title flightDatabasetitle">
-          מאגר טיסות
-        </h1>
-      </div>
+      <h1 className="title flightDatabasetitle">
+        מאגר טיסות
+      </h1>
+
+      <Table columns={["מספר זיהוי של המטוס", "שעת יציאה", "שעת חזרה לבסיס", "נקודת אורך של היעד", "נקודת רוחב של היעד"]} rows={[]} />
     </>
   )
 }
