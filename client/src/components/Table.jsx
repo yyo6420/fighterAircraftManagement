@@ -1,4 +1,5 @@
 function Table({ columns, rows }) {
+
     return (
         <table>
             <tbody>
@@ -8,7 +9,12 @@ function Table({ columns, rows }) {
                     })}
                 </tr>
                 {rows.map(row => {
-                    return <th>{row}</th>
+                    const cells = Object.values(row);
+                    return <tr>
+                        {cells.map(cell => {
+                            return <th>{cell}</th>
+                        })}
+                    </tr>
                 })}
             </tbody>
         </table>
