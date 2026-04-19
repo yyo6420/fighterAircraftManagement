@@ -5,14 +5,25 @@
 
 .navBar {
     display: flex;
+    justify-content: space-between;
     padding: 0.5rem;
     padding-right: 1rem;
     width: 96rem;
     background-color: rgb(127, 195, 255);
 }
 
+.navBarTitleDiv {
+    display: flex;
+    gap: 0.5rem;
+}
+
 .navBarTitle {
     font-size: 1.8rem;
+}
+
+.navBarIcon {
+    height: 2.5rem;
+    border-radius: 100%;
 }
 
 .welcomeTitle {
@@ -28,6 +39,7 @@
     margin-right: 37.5rem;
     padding: 2rem;
     width: 20rem;
+    border-radius: 25px;
     background-color: rgb(154, 105, 40);
 }
 
@@ -36,6 +48,7 @@
     border: none;
     border-radius: 20px;
     font-size: 2rem;
+    text-decoration: none;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     transition: 0.5s ease-in-out;
 }
@@ -72,4 +85,31 @@
 .flightDatabase:hover {
     background-color: rgb(130, 216, 44);
     color: darkgreen;
+}
+
+.navBarButton {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 25px;
+    transition: 0.5s ease-in-out;
+}
+
+.navBarButton:hover {
+    cursor: grab;
+}
+
+.navBarButtonsDiv {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.goHome {
+    background-color: darkblue;
+    color: azure;
+}
+
+.goHome:hover {
+    background-color: azure;
+    color: darkblue;
 }

@@ -1,3 +1,6 @@
+import AircraftsPool from './pages/AircraftsPool.jsx';
+import AircraftsTypes from './pages/AircraftsTypes.jsx';
+import FlightDatabase from './pages/FlightDatabase.jsx';
 import HomePage from './pages/HomePage.jsx';
 import './styles/App.css';
 import { Routes, Route } from "react-router";
@@ -6,11 +9,11 @@ function App() {
 
   return (
     <>
-      <nav className="navBar">
-        <h2 className="navBarTitle">מערכת לניהול מטוסים</h2>
-      </nav>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/aircraftsPool" element={<AircraftsPool />} />
+        <Route path="/aircraftsTypes" element={<AircraftsTypes />} />
+        <Route path="/flightDatabase" element={<FlightDatabase />} />
       </Routes>
     </>
   )
