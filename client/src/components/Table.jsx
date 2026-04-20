@@ -1,23 +1,31 @@
 function Table({ columns, rows }) {
 
     return (
-        <table>
-            <tbody>
-                <tr>
-                    {columns.map(column => {
-                        return <th>{column}</th>
-                    })}
-                </tr>
-                {rows.map(row => {
-                    const cells = Object.values(row);
-                    return <tr>
-                        {cells.map(cell => {
-                            return <th>{cell}</th>
+        <div className="tableDiv">
+            <table>
+                <thead>
+                    <tr>
+                        {columns.map((column, index) => {
+                            return <th key={index}>
+                                {column}
+                            </th>
                         })}
                     </tr>
-                })}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {rows.map((row, index) => {
+                        const cells = Object.values(row);
+                        return <tr key={index}>
+                            {cells.map((cell, index) => {
+                                return <td key={index}>
+                                    {cell}
+                                </td>
+                            })}
+                        </tr>
+                    })}
+                </tbody>
+            </table>
+        </div>
     )
 }
 
