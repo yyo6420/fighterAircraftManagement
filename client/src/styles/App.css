@@ -202,9 +202,79 @@ table tbody tr:nth-child(even) {
     background-color: #252525;
 }
 
-th:hover {
+th:hover,
+td:hover {
     cursor: crosshair;
     background-color: #4b5320;
     color: #ffffff;
     transition: 0.2s ease-in-out;
+}
+
+.tableButton {
+    padding: 0.5rem;
+    background-color: blanchedalmond;
+    color: #4b5320;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.tableButton:hover {
+    background-color: #f0dbb0;
+    transform: scale(1.05);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #1a1a1a;
+    border: 2px solid #4b5320;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.modalInput {
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+    background-color: #252525;
+    border: 1px solid #4b5320;
+    color: #f1c40f;
+    width: 100%;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.confirmBtn {
+    background-color: #4b5320;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.cancelBtn {
+    background-color: #8b0000;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
 }
