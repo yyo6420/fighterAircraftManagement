@@ -34,3 +34,25 @@ export const updateLandingTime = async (flightId, landingTime) => {
         throw error
     }
 }
+
+export const addNewFlight = async (flightData) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/flights`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(flightData),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "Failed to add flight");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};

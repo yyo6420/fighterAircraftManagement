@@ -278,3 +278,131 @@ td:hover {
     border: none;
     cursor: pointer;
 }
+
+.tableActions {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.addFlightButton {
+    padding: 10px 24px;
+    background-color: #4b5320;
+    color: blanchedalmond;
+    border: 2px solid blanchedalmond;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.addFlightButton:hover {
+    background-color: blanchedalmond;
+    color: #4b5320;
+    box-shadow: 0 0 15px rgba(235, 235, 205, 0.3);
+    transform: translateY(-2px);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    /* רקע כהה מאוד */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modalContent {
+    background-color: #1a1a1a;
+    border: 3px solid #4b5320;
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 1);
+}
+
+.modalContent h3 {
+    color: blanchedalmond;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    border-bottom: 1px solid #4b5320;
+    padding-bottom: 10px;
+}
+
+.addFlightForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.addFlightForm input {
+    background-color: #000;
+    border: 1px solid #4b5320;
+    color: blanchedalmond;
+    padding: 12px;
+    font-family: inherit;
+    outline: none;
+}
+
+.addFlightForm input:focus {
+    border-color: blanchedalmond;
+}
+
+.addFlightForm input[type="datetime-local"] {
+    color-scheme: dark;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.inputLabel {
+    color: white;
+    font-size: 0.8rem;
+    text-align: right;
+    margin-bottom: -10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.confirmBtn {
+    flex: 1;
+    background-color: #4b5320;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.confirmBtn:hover {
+    background-color: #5d6728;
+}
+
+.cancelBtn {
+    flex: 1;
+    background-color: #333;
+    color: #ccc;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cancelBtn:hover {
+    background-color: #444;
+}
