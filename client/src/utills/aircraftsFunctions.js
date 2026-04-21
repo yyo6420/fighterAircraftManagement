@@ -14,3 +14,25 @@ const getAllAircrafts = async () => {
 }
 
 export const aircraftsData = await getAllAircrafts();
+
+export const addNewAircraft = async (aircraftData) => {
+    try {
+        const response = await fetch("http://localhost:5010/api/aircrafts", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(aircraftData),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "Failed to add aircraft");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}

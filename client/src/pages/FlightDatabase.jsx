@@ -53,33 +53,33 @@ function FlightDatabase() {
             <h3>הזנת נתוני טיסה</h3>
             <div className="addFlightForm">
               <input
-                placeholder="מספר זיהוי טיסה"
-                onChange={(e) => setNewFlightData({ ...newFlightData, id: e.target.value })}
+                placeholder="מספר זיהוי מטוס"
+                onChange={(event) => setNewFlightData({ ...newFlightData, id: event.target.value })}
                 required
               />
               <label className="inputLabel">שעת המראה:</label>
               <input
                 type="datetime-local"
                 placeholder="שעת המראה"
-                onChange={(e) => setNewFlightData({ ...newFlightData, takeoffTime: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, takeoffTime: event.target.value })}
                 required
               />
               <label className="inputLabel">שעת נחיתה (אופציונלי):</label>
               <input
                 type="datetime-local"
                 placeholder="שעת נחיתה (אופציונלי)"
-                onChange={(e) => setNewFlightData({ ...newFlightData, landingTime: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, landingTime: event.target.value })}
               />
 
 
               <input
                 placeholder="נקודת אורך (Longitude)"
-                onChange={(e) => setNewFlightData({ ...newFlightData, longitude: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, longitude: event.target.value })}
                 required
               />
               <input
                 placeholder="נקודת רוחב (Latitude)"
-                onChange={(e) => setNewFlightData({ ...newFlightData, latitude: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, latitude: event.target.value })}
                 required
               />
             </div>
