@@ -1,4 +1,4 @@
-const getAllAircrafts = async () => {
+export const getAllAircrafts = async () => {
     try {
         const fetchData = await fetch("http://localhost:5010/api/aircrafts", {
             method: "GET"
@@ -12,8 +12,6 @@ const getAllAircrafts = async () => {
         console.error(error.message);
     };
 }
-
-export const aircraftsData = await getAllAircrafts();
 
 export const addNewAircraft = async (aircraftData) => {
     try {

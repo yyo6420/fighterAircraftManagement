@@ -1,8 +1,9 @@
 import { useState } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { aircraftsData, addNewAircraft } from "../utills/aircraftsFunctions.js";
+import { addNewAircraft, getAllAircrafts } from "../utills/aircraftsFunctions.js";
 
+const aircraftsData = await getAllAircrafts()
 function AircraftsPool() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newAircraftData, setNewAircraftData] = useState({

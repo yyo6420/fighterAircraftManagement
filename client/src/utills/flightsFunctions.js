@@ -1,4 +1,4 @@
-const getAllflights = async () => {
+export const getAllflights = async () => {
     try {
         const fetchData = await fetch("http://localhost:5010/api/flights", {
             method: "GET"
@@ -13,7 +13,23 @@ const getAllflights = async () => {
     };
 }
 
-export const flightsData = await getAllflights();
+export const getFlightsByAircraftId = async (aircraftId) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/flights/aircraft/${aircraftId}`, {
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "No flights were found for this aircraft");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching flights:", error.message);
+        throw error;
+    }
+};
 
 export const updateLandingTime = async (flightId, landingTime) => {
     try {

@@ -315,7 +315,6 @@ td:hover {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.85);
-    /* רקע כהה מאוד */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -405,4 +404,95 @@ td:hover {
 
 .cancelBtn:hover {
     background-color: #444;
+}
+
+/* סידור שורת הפעולות */
+.tableActions {
+    display: flex;
+    justify-content: space-between;
+    /* כפתור הוספה בצד אחד, חיפוש בצד שני */
+    align-items: center;
+    margin: 30px auto;
+    width: 95%;
+    direction: rtl;
+}
+
+.searchArea {
+    display: flex;
+    gap: 12px;
+    /* רווח בין האלמנטים */
+    align-items: center;
+}
+
+/* עיצוב ה-Select */
+.searchInput {
+    background-color: #1a1a1a;
+    color: #8a9a5b;
+    /* צבע ירוק זית צה"לי */
+    border: 1px solid #4a5d23;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: none;
+    cursor: pointer;
+}
+
+.searchBtn,
+.showAllBtn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.searchBtn {
+    background-color: #4a5d23;
+    color: #fff;
+    border: none;
+}
+
+.searchBtn:hover {
+    background-color: #5d752d;
+    box-shadow: 0 0 8px rgba(74, 93, 35, 0.6);
+}
+
+.showAllBtn {
+    background-color: transparent;
+    color: #8a9a5b;
+    border: 1px solid #8a9a5b;
+}
+
+.showAllBtn:hover {
+    background-color: rgba(138, 154, 91, 0.1);
+}
+
+.updateBtn,
+.statusBadge {
+    background-color: #f1e0ac;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border: none;
+}
+
+.noDataMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border: 1px dashed #4a5d23;
+    margin: 20px auto;
+    width: 95%;
+    background-color: rgba(74, 93, 35, 0.05);
+}
+
+.noDataMessage p {
+    color: #8a9a5b;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
