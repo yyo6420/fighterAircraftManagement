@@ -1,32 +1,52 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-// ייבוא פונקציות ה-API
-import { getAllflights, getFlightsByAircraftId } from "../utills/flightsFunctions.js";
+import { getAllflights, getFlightsByAircraftId, addNewFlight } from "../utills/flightsFunctions.js";
 import { getAllAircrafts } from "../utills/aircraftsFunctions.js";
-
-const allFlights = await getAllflights();
 
 function FlightDatabase() {
   const [flights, setFlights] = useState([]);
-  const [allAircrafts, setAllAircrafts] = useState(allFlights);
+  const [allAircrafts, setAllAircrafts] = useState([]);
   const [selectedId, setSelectedId] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newFlightData, setNewFlightData] = useState({
+    aircraftId: '',
+    takeoffTime: '',
+    latitude: '',
+    longitude: '',
+    landingTime: ''
+  });
+
+  const loadData = async () => {
+    try {
+      const flightsResponse = await getAllflights();
+      const aircraftsResponse = await getAllAircrafts();
+      setFlights(flightsResponse || []);
+      setAllAircrafts(aircraftsResponse || []);
+    } catch (error) {
+      console.error("טעינת הנתונים נכשלה:", error);
+    }
+  };
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const flightsResponse = await getAllflights();
-        const aircraftsResponse = await getAllAircrafts();
-
-        setFlights(flightsResponse || []);
-        setAllAircrafts(aircraftsResponse || []);
-      } catch (error) {
-        console.error("טעינת הנתונים נכשלה:", error);
-      }
-    };
     loadData();
   }, []);
+
+  const handleSaveFlight = async () => {
+    try {
+      if (!newFlightData.aircraftId || !newFlightData.takeoffTime) {
+        alert("נא למלא שדות חובה (מזהה מטוס ושעת המראה)");
+        return;
+      }
+      await addNewFlight(newFlightData);
+      alert("הטיסה תועדה בהצלחה!");
+      setIsAddModalOpen(false);
+      setNewFlightData({ aircraftId: '', takeoffTime: '', latitude: '', longitude: '', landingTime: '' });
+      loadData();
+    } catch (error) {
+      alert("שגיאה בשמירת הטיסה: " + error.message);
+    }
+  };
 
   const handleFilter = async () => {
     if (!selectedId) {
@@ -42,8 +62,7 @@ function FlightDatabase() {
   };
 
   const handleShowAll = async () => {
-    const allFlights = await getAllflights();
-    setFlights(allFlights);
+    await loadData();
     setSelectedId("");
   };
 
@@ -59,7 +78,7 @@ function FlightDatabase() {
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
           >
-            <option value="">בחר מטוס לסינון</option>
+            <option value="">סינון לפי מטוס</option>
             {allAircrafts.map(ac => (
               <option key={ac._id} value={ac._id}>
                 {ac.aircraftName}
@@ -78,12 +97,49 @@ function FlightDatabase() {
 
       {flights.length > 0 ? (
         <Table
-          columns={["מספר זיהוי של הטיסה", "מספר זיהוי של המטוס", "שעת יציאה", "שעת חזרה לבסיס", "נקודת אורך", "נקודת רוחב"]}
+          columns={["ID טיסה", "ID מטוס", "המראה", "נחיתה", "אורך", "רוחב"]}
           rows={flights}
         />
       ) : (
         <div className="noDataMessage">
           <p>אין תיעוד של טיסות למטוס זה</p>
+        </div>
+      )}
+
+      {isAddModalOpen && (
+        <div className="modalOverlay">
+          <div className="modalContent tactical-theme">
+            <h3>הזנת נתוני טיסה חדשה</h3>
+            <div className="addFlightForm">
+              <input
+                placeholder="מזהה מטוס (ID)"
+                value={newFlightData.aircraftId}
+                onChange={(e) => setNewFlightData({ ...newFlightData, aircraftId: e.target.value })}
+              />
+              <label>שעת המראה:</label>
+              <input
+                type="datetime-local"
+                onChange={(e) => setNewFlightData({ ...newFlightData, takeoffTime: e.target.value })}
+              />
+              <label>שעת נחיתה (אופציונלי):</label>
+              <input
+                type="datetime-local"
+                onChange={(e) => setNewFlightData({ ...newFlightData, landingTime: e.target.value })}
+              />
+              <input
+                placeholder="נקודת אורך (Longitude)"
+                onChange={(e) => setNewFlightData({ ...newFlightData, longitude: e.target.value })}
+              />
+              <input
+                placeholder="נקודת רוחב (Latitude)"
+                onChange={(e) => setNewFlightData({ ...newFlightData, latitude: e.target.value })}
+              />
+            </div>
+            <div className="modalActions">
+              <button className="confirmBtn" onClick={handleSaveFlight}>שמור במערכת</button>
+              <button className="cancelBtn" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
+            </div>
+          </div>
         </div>
       )}
     </>
