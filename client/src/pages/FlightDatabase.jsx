@@ -97,7 +97,7 @@ function FlightDatabase() {
 
       {flights.length > 0 ? (
         <Table
-          columns={["ID טיסה", "ID מטוס", "המראה", "נחיתה", "אורך", "רוחב"]}
+          columns={["מספר זיהוי טיסה", "מספר זיהוי מטוס", "שעת המראה", "שעת נחיתה", "אורך", "רוחב"]}
           rows={flights}
         />
       ) : (
@@ -111,16 +111,28 @@ function FlightDatabase() {
           <div className="modalContent tactical-theme">
             <h3>הזנת נתוני טיסה חדשה</h3>
             <div className="addFlightForm">
-              <input
-                placeholder="מזהה מטוס (ID)"
+              <label className="inputLabel">בחר מטוס:</label>
+              <select
+                className="searchInput" // נשתמש באותו עיצוב של הסינון
                 value={newFlightData.aircraftId}
                 onChange={(e) => setNewFlightData({ ...newFlightData, aircraftId: e.target.value })}
-              />
-              <label>שעת המראה:</label>
+                required
+              >
+                <option value="">-- בחר מטוס מהרשימה --</option>
+                {allAircrafts.map(ac => (
+                  <option key={ac._id} value={ac._id}>
+                    {ac.aircraftName} ({ac._id.slice(-4)}) {/* מציג שם וסיומת ID לזיהוי קל */}
+                  </option>
+                ))}
+              </select>
+
+              <label className="inputLabel">שעת המראה:</label>
               <input
                 type="datetime-local"
                 onChange={(e) => setNewFlightData({ ...newFlightData, takeoffTime: e.target.value })}
+                required
               />
+              
               <label>שעת נחיתה (אופציונלי):</label>
               <input
                 type="datetime-local"

@@ -67,7 +67,7 @@ function Table({ columns, rows, refreshData }) {
                                                 className="tableButton"
                                                 onClick={() => handleOpenModal(row._id)}
                                             >
-                                                עידכון
+                                                עדכון שעת נחיתה
                                             </button>
                                         )}
                                     </td>

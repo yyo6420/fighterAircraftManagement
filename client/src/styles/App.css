@@ -363,6 +363,15 @@ td:hover {
     color-scheme: dark;
 }
 
+.addFlightForm select {
+    width: 100%;
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+    color: #8a9a5b;
+    border: 1px solid #4a5d23;
+    padding: 10px;
+}
+
 .modalActions {
     display: flex;
     justify-content: space-between;
