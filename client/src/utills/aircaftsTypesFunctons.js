@@ -14,3 +14,25 @@ const getAllTypes = async () => {
 }
 
 export const typesData = await getAllTypes();
+
+export const addNewType = async (typeData) => {
+    try {
+        const response = await fetch("http://localhost:5010/api/aircraftstypes", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(typeData),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "Failed to add type");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}

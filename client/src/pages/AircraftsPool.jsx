@@ -17,6 +17,7 @@ function AircraftsPool() {
   const handleSaveAircraft = async () => {
     try {
       await addNewAircraft(newAircraftData);
+      alert("פרטי המטוס עודכנו בהצלחה :)");
       setIsAddModalOpen(false);
       refreshData();
       setNewAircraftData({ aircraftName: '', aircraftType: '' });

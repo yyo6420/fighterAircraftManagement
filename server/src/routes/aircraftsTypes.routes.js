@@ -5,10 +5,10 @@ import { addType, deleteType, getAllTypes, getTypeById, getTypeByName } from "..
 const router = express.Router();
 
 router.post("/", asyncHandler(async (request, response) => {
-    const { name, maxSpeed, fuel } = request.body;
-    if (!name || !maxSpeed || !fuel) throw new Error("you must type a name and maxSpeed and fuel");
+    const { typeName, maxSpeed, fuelCapacity } = request.body;
+    if (!typeName || !maxSpeed || !fuelCapacity) throw new Error("you must type a name and maxSpeed and fuel");
 
-    const newType = await addType(name, maxSpeed, fuel);
+    const newType = await addType(typeName, maxSpeed, fuelCapacity);
 
     response.status(201).send({ message: "The new Type added successfully", newType });
 }));

@@ -21,6 +21,7 @@ function FlightDatabase() {
   const handleSaveFlight = async () => {
     try {
       await addNewFlight(newFlightData);
+      alert("פרטי הטיסה עודכנו בהצלחה :)");
       setIsAddModalOpen(false);
       refreshData();
       setNewFlightData({ id: '', takeoffTime: '', latitude: '', longitude: '', landingTime: null });
