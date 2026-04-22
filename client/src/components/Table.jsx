@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Trash2 } from 'lucide-react';
 import { updateLandingTime } from "../utills/flightsFunctions";
 
-function Table({ columns, rows, refreshData }) {
+function Table({ columns, rows, refreshData, onDelete }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedFlightId, setSelectedFlightId] = useState(null);
     const [landingTime, setLandingTime] = useState('');
@@ -28,11 +29,9 @@ function Table({ columns, rows, refreshData }) {
 
     const formatDateTime = (value) => {
         const date = new Date(value);
-
         if (isNaN(date.getTime()) || typeof value === 'number' || value.length < 10) {
             return value;
         }
-
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = String(date.getFullYear()).slice(-2);
@@ -72,14 +71,26 @@ function Table({ columns, rows, refreshData }) {
                                         )}
                                     </td>
                                 ))}
+
+                                {onDelete && (
+                                    <td>
+                                        <button
+                                            className="deleteBtn"
+                                            onClick={() => onDelete(row._id)}
+                                        >
+                                            <Trash2 size={18}/>
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
+
             {isModalOpen && (
                 <div className="modalOverlay">
-                    <div className="modalContent">
+                    <div className="modalContent tactical-theme">
                         <h3>עדכון שעת נחיתה</h3>
                         <input
                             type="datetime-local"

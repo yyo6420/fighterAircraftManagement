@@ -90,3 +90,24 @@ export const addNewFlight = async (flightData) => {
         throw error;
     }
 };
+
+export const deleteFlight = async (flightId) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/flights/${flightId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to delete the flight from the database");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Delete Error:", error.message);
+        throw error;
+    }
+};

@@ -77,7 +77,7 @@ export const getAllFligts = async (filter = {}) => {
     return result;
 }
 
-export const deleteFLight = async (flightId) => {
+export const deleteFlight = async (flightId) => {
     if (!flightCollection) {
         flightCollection = db?.collection("flights");
     };

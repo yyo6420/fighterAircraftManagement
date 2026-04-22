@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { getAllflights, getFlightsByAircraftId, addNewFlight } from "../utills/flightsFunctions.js";
+import { getAllflights, getFlightsByAircraftId, addNewFlight, deleteFlight } from "../utills/flightsFunctions.js";
 import { getAllAircrafts } from "../utills/aircraftsFunctions.js";
 
 function FlightDatabase() {
@@ -71,6 +71,17 @@ function FlightDatabase() {
     setSelectedId("");
   };
 
+  const handleDeleteFlight = async (id) => {
+    if (window.confirm("האם אתה בטוח?")) {
+      try {
+        await deleteFlight(id);
+        setFlights(prev => prev.filter(flight => flight._id !== id));
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -112,8 +123,9 @@ function FlightDatabase() {
 
       {filteredFlights.length > 0 ? (
         <Table
-          columns={["מספר זיהוי טיסה", "מספר זיהוי מטוס", "שעת המראה", "שעת נחיתה", "אורך", "רוחב"]}
+          columns={["מספר זיהוי טיסה", "מספר זיהוי מטוס", "שעת המראה", "שעת נחיתה", "אורך", "רוחב", "מחיקת טיסה"]}
           rows={filteredFlights}
+          onDelete={handleDeleteFlight}
         />
       ) : (
         <div className="noDataMessage">

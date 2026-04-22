@@ -41,14 +41,14 @@ function AircraftsTypes() {
 
       <div className="tableActions">
         <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
-          + הגדרת סוג מטוס חדש
+          + הוספת סוג מטוס חדש
         </button>
       </div>
 
       {isAddModalOpen && (
         <div className="modalOverlay">
           <div className="modalContent">
-            <h3>הגדרת סוג מטוס חדש</h3>
+            <h3>הוספת סוג מטוס חדש</h3>
             <div className="addFlightForm">
               <input
                 placeholder="שם הדגם:"
