@@ -25,7 +25,7 @@ function FlightDatabase() {
       setFlights(flightsResponse || []);
       setAllAircrafts(aircraftsResponse || []);
     } catch (error) {
-      console.error("טעינת הנתונים נכשלה:", error);
+      console.error(error.message || "Failed in loading data");
     }
   };
 

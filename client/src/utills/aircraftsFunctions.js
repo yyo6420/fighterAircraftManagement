@@ -34,3 +34,21 @@ export const addNewAircraft = async (aircraftData) => {
         throw error;
     }
 }
+
+export const getAircraftByName = async (aircraftName) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/aircrafts/name/${aircraftName}`, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || "Failed to find aircraft");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+}
