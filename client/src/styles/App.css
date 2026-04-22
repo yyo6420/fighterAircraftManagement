@@ -144,7 +144,7 @@
     align-items: stretch;
     width: 90%;
     max-width: 80rem;
-    height: 60vh;
+    height: 55vh;
     overflow-y: auto;
     border: 2px solid #4b5320;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
@@ -415,11 +415,9 @@ td:hover {
     background-color: #444;
 }
 
-/* סידור שורת הפעולות */
 .tableActions {
     display: flex;
     justify-content: space-between;
-    /* כפתור הוספה בצד אחד, חיפוש בצד שני */
     align-items: center;
     margin: 30px auto;
     width: 95%;
@@ -429,15 +427,12 @@ td:hover {
 .searchArea {
     display: flex;
     gap: 12px;
-    /* רווח בין האלמנטים */
     align-items: center;
 }
 
-/* עיצוב ה-Select */
 .searchInput {
     background-color: #1a1a1a;
     color: #8a9a5b;
-    /* צבע ירוק זית צה"לי */
     border: 1px solid #4a5d23;
     padding: 10px 15px;
     border-radius: 4px;

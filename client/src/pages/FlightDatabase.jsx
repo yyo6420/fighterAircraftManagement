@@ -76,12 +76,12 @@ function FlightDatabase() {
           <select
             className="searchInput"
             value={selectedId}
-            onChange={(e) => setSelectedId(e.target.value)}
+            onChange={(event) => setSelectedId(event.target.value)}
           >
             <option value="">סינון לפי מטוס</option>
-            {allAircrafts.map(ac => (
-              <option key={ac._id} value={ac._id}>
-                {ac.aircraftName}
+            {allAircrafts.map(aircraft => (
+              <option key={aircraft._id} value={aircraft._id}>
+                {aircraft.aircraftName}
               </option>
             ))}
           </select>
@@ -113,15 +113,15 @@ function FlightDatabase() {
             <div className="addFlightForm">
               <label className="inputLabel">בחר מטוס:</label>
               <select
-                className="searchInput" // נשתמש באותו עיצוב של הסינון
+                className="searchInput"
                 value={newFlightData.aircraftId}
-                onChange={(e) => setNewFlightData({ ...newFlightData, aircraftId: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, aircraftId: event.target.value })}
                 required
               >
-                <option value="">-- בחר מטוס מהרשימה --</option>
-                {allAircrafts.map(ac => (
-                  <option key={ac._id} value={ac._id}>
-                    {ac.aircraftName} ({ac._id.slice(-4)}) {/* מציג שם וסיומת ID לזיהוי קל */}
+                <option value="">בחר מטוס מהרשימה</option>
+                {allAircrafts.map(aircraft => (
+                  <option key={aircraft._id} value={aircraft._id}>
+                    {aircraft.aircraftName} ({aircraft._id.slice(-4)})
                   </option>
                 ))}
               </select>
@@ -129,22 +129,22 @@ function FlightDatabase() {
               <label className="inputLabel">שעת המראה:</label>
               <input
                 type="datetime-local"
-                onChange={(e) => setNewFlightData({ ...newFlightData, takeoffTime: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, takeoffTime: event.target.value })}
                 required
               />
-              
-              <label>שעת נחיתה (אופציונלי):</label>
+
+              <label className="inputLabel">שעת נחיתה (אופציונלי):</label>
               <input
                 type="datetime-local"
-                onChange={(e) => setNewFlightData({ ...newFlightData, landingTime: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, landingTime: event.target.value })}
               />
               <input
                 placeholder="נקודת אורך (Longitude)"
-                onChange={(e) => setNewFlightData({ ...newFlightData, longitude: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, longitude: event.target.value })}
               />
               <input
                 placeholder="נקודת רוחב (Latitude)"
-                onChange={(e) => setNewFlightData({ ...newFlightData, latitude: e.target.value })}
+                onChange={(event) => setNewFlightData({ ...newFlightData, latitude: event.target.value })}
               />
             </div>
             <div className="modalActions">
