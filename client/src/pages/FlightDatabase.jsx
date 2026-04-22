@@ -8,6 +8,7 @@ function FlightDatabase() {
   const [flights, setFlights] = useState([]);
   const [allAircrafts, setAllAircrafts] = useState([]);
   const [selectedId, setSelectedId] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newFlightData, setNewFlightData] = useState({
     aircraftId: '',
@@ -27,6 +28,10 @@ function FlightDatabase() {
       console.error("טעינת הנתונים נכשלה:", error);
     }
   };
+
+  const filteredFlights = flights.filter(flight =>
+    flight._id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     loadData();
@@ -85,9 +90,19 @@ function FlightDatabase() {
               </option>
             ))}
           </select>
-
           <button className="searchBtn" onClick={handleFilter}>סנן</button>
-          <button className="showAllBtn" onClick={handleShowAll}>הצג הכל</button>
+
+          <span className="separator"> | </span>
+
+          <input
+            type="text"
+            className="searchInput"
+            placeholder="סינון לפי מספר טיסה..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <button className="showAllBtn" onClick={handleShowAll}>נקה הכל</button>
         </div>
 
         <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
@@ -95,14 +110,14 @@ function FlightDatabase() {
         </button>
       </div>
 
-      {flights.length > 0 ? (
+      {filteredFlights.length > 0 ? (
         <Table
           columns={["מספר זיהוי טיסה", "מספר זיהוי מטוס", "שעת המראה", "שעת נחיתה", "אורך", "רוחב"]}
-          rows={flights}
+          rows={filteredFlights}
         />
       ) : (
         <div className="noDataMessage">
-          <p>אין תיעוד של טיסות למטוס זה</p>
+          <p>לא נמצאו טיסות תואמות</p>
         </div>
       )}
 

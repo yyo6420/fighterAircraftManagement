@@ -26,10 +26,28 @@ export const getFlightsByAircraftId = async (aircraftId) => {
 
         return await response.json();
     } catch (error) {
-        console.error("Error fetching flights:", error.message);
+        console.error(error.message);
         throw error;
     }
 };
+
+export const getFlightById = async (flightId) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/flights/id/${flightId}`, {
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || "Flight not found");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Fetch error:", error.message);
+        throw error;
+    }
+}
 
 export const updateLandingTime = async (flightId, landingTime) => {
     try {
