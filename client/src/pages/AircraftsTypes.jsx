@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { getAllTypes, addNewType } from "../utills/aircaftsTypesFunctons.js";
+import { getAllTypes, addNewType, deleteTypeFromApi } from "../utills/aircaftsTypesFunctons.js";
 
 function AircraftsTypes() {
   const [types, setTypes] = useState([]);
@@ -29,6 +29,18 @@ function AircraftsTypes() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDeleteType = async (id) => {
+    if (!window.confirm("האם אתה בטוח שברצונך למחוק את סוג המטוס הזה?")) return;
+
+    try {
+      await deleteTypeFromApi(id);
+      alert("סוג המטוס נמחק בהצלחה");
+      fetchData();
+    } catch (error) {
+      alert("שגיאה במחיקה: " + error.message);
+    }
+  };
 
   const filteredTypes = types.filter((type) => {
     const searchLower = searchTerm.toLowerCase();
@@ -80,8 +92,9 @@ function AircraftsTypes() {
       ) : (
         filteredTypes.length > 0 ? (
           <Table
-            columns={["מספר זיהוי", "שם הדגם", "מהירות מקסימלית", "קיבולת דלק"]}
+            columns={["מספר זיהוי", "שם הדגם", "מהירות מקסימלית", "קיבולת דלק", "מחק סוג"]}
             rows={filteredTypes}
+            onDelete={handleDeleteType}
           />
         ) : (
           <div className="noDataMessage">

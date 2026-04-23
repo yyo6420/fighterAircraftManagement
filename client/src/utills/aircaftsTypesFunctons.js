@@ -36,3 +36,25 @@ export const addNewType = async (typeData) => {
         throw error;
     }
 }
+
+export const deleteTypeFromApi = async (typeId) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/aircraftstypes/${typeId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Failed to add type :(");
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Error in deleteTypeFromApi:", error);
+        throw error;
+    }
+};
