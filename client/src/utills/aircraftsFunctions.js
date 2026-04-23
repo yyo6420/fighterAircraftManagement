@@ -52,3 +52,25 @@ export const getAircraftByName = async (aircraftName) => {
         throw error;
     }
 }
+
+export const deleteAircraftFromApi = async (aircraftId) => {
+    try {
+        const response = await fetch(`http://localhost:5010/api/aircrafts/${aircraftId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Something went wrong :(");
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Error deleting aircraft:", error);
+        throw error;
+    }
+};

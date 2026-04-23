@@ -37,7 +37,7 @@ router.delete("/:id", asyncHandler(async (request, response) => {
 
     const result = await deleteAircraft(id);
 
-    response.send({ message: "The aircraft removed succeessfully", result })
+    response.send({ message: "The aircraft removed successfully", result })
 }));
 
 export default router;

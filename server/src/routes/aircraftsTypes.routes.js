@@ -37,7 +37,7 @@ router.delete("/:id", asyncHandler(async (request, response) => {
 
     const result = await deleteType(id);
 
-    response.send({ message: "The type removed succeessfully", result })
+    response.send({ message: "The type removed successfully", result })
 }))
 
 export default router;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { addNewAircraft, getAllAircrafts } from "../utills/aircraftsFunctions.js";
+import { addNewAircraft, getAllAircrafts, deleteAircraftFromApi } from "../utills/aircraftsFunctions.js";
 
 function AircraftsPool() {
   const [aircrafts, setAircrafts] = useState([]);
@@ -31,12 +31,9 @@ function AircraftsPool() {
 
   const filteredAircrafts = aircrafts.filter((aircraft) => {
     const searchLower = searchTerm.toLowerCase();
-
     const nameMatch = aircraft.aircraftName?.toLowerCase().includes(searchLower);
-
     const idMatch = aircraft._id?.toString().toLowerCase().includes(searchLower) ||
       aircraft.id?.toString().toLowerCase().includes(searchLower);
-
     return nameMatch || idMatch;
   });
 
@@ -50,6 +47,18 @@ function AircraftsPool() {
       alert("פרטי המטוס עודכנו בהצלחה :)");
       setIsAddModalOpen(false);
       setNewAircraftData({ aircraftName: '', aircraftType: '' });
+      fetchData();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("האם אתה בטוח שברצונך למחוק את המטוס מהמאגר?")) return;
+
+    try {
+      await deleteAircraftFromApi(id);
+      alert("המטוס הוסר בהצלחה");
       fetchData();
     } catch (error) {
       alert(error.message);
@@ -82,8 +91,9 @@ function AircraftsPool() {
       ) : (
         filteredAircrafts.length > 0 ? (
           <Table
-            columns={["מספר זיהוי", "שם המטוס", "סוג מטוס"]}
+            columns={["מספר זיהוי", "שם המטוס", "סוג מטוס", "מחק מטוס"]}
             rows={filteredAircrafts}
+            onDelete={handleDelete}
           />
         ) : (
           <div className="noDataMessage">
