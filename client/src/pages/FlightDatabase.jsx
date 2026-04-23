@@ -85,7 +85,7 @@ function FlightDatabase() {
   return (
     <>
       <NavBar />
-      <h1 className="title">מאגר טיסות</h1>
+      <h1 className="title flightDatabasetitle">מאגר טיסות</h1>
 
       <div className="tableActions">
         <div className="searchArea">

@@ -47,25 +47,34 @@
     align-items: center;
     margin: 2rem auto;
     padding: 2rem;
-    width: 20rem;
+    width: 22rem;
     border-radius: 8px;
     background-color: #353a20;
     border: 1px solid #4b5320;
 }
 
 .menuButton {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
     padding: 1rem;
     border: 1px solid #1a1a1a;
     border-radius: 5px;
     font-size: 1.5rem;
     text-decoration: none;
     font-weight: bold;
-    transition: 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     text-transform: uppercase;
 }
 
 .menuButton:hover {
     cursor: crosshair;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     filter: brightness(1.2);
 }
 
@@ -99,6 +108,33 @@
     color: #1a2a3a;
 }
 
+.mapButton {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+}
+
+.mapButton:hover {
+    background-color: #ffffff;
+    color: #2c3e50;
+}
+
+.mapButton:hover {
+    background-color: #ffffff;
+    color: #2c3e50;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+}
+
+.mapButton svg {
+    transition: transform 0.3s ease;
+}
+
+.mapButton:hover svg {
+    transform: scale(1.2) rotate(-10deg);
+    color: #e74c3c;
+}
+
 .navBarButton {
     text-decoration: none;
     font-weight: bold;
@@ -127,7 +163,7 @@
 }
 
 .aircraftsPoolTitle {
-    color: #8c926b;
+    color: #758133;
 }
 
 .aircraftsTypesTitle {
@@ -136,6 +172,10 @@
 
 .flightDatabasetitle {
     color: #5d6d7e;
+}
+
+.mapTitle {
+    color: #3b536b;
 }
 
 .loadinText {

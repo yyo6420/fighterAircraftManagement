@@ -1,11 +1,12 @@
 import { Link } from "react-router";
+import { MapPin } from "lucide-react";
 
 function HomePage() {
     return (
         <>
             <nav className="navBar">
                 <div className="navBarTitleDiv">
-                    <h2 className="navBarTitle">מערכת לניהול מטוסים </h2>
+                    <h2 className="navBarTitle">מערכת לניהול מטוסים</h2>
                     <img className="navBarIcon" src="../../public/aircraftIcon.png" alt="תמונה של מטוס קרב" />
                 </div>
             </nav>
@@ -16,6 +17,7 @@ function HomePage() {
                 <Link to={"/aircraftsPool"} className="menuButton aircraftsPool">מאגר מטוסים</Link>
                 <Link to={"/aircraftsTypes"} className="menuButton aircraftsTypes">סוגי מטוסים</Link>
                 <Link to={"/flightDatabase"} className="menuButton flightDatabase">מאגר טיסות</Link>
+                <Link to={"/map"} className="menuButton mapButton">מפה <MapPin size={24} /> </Link>
             </div>
         </>
     )
