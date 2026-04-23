@@ -1,11 +1,11 @@
-const getAllTypes = async () => {
+export const getAllTypes = async () => {
     try {
-        const fetchData = await fetch("http://localhost:5010/api/aircraftstypes", {
+        const response = await fetch("http://localhost:5010/api/aircraftstypes", {
             method: "GET"
         });
-        if (!fetchData) throw new Error("Fetch failed :(");
+        if (!response.ok) throw new Error("Fetch failed :(");
 
-        const types = await fetchData.json();
+        const types = await response.json();
 
         return types;
     } catch (error) {

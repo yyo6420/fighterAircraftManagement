@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { typesData, addNewType } from "../utills/aircaftsTypesFunctons.js";
+import { getAllTypes, addNewType } from "../utills/aircaftsTypesFunctons.js";
 
 function AircraftsTypes() {
+  const [types, setTypes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newTypeData, setNewTypeData] = useState({
     typeName: '',
@@ -11,17 +14,41 @@ function AircraftsTypes() {
     fuelCapacity: ''
   });
 
-  const refreshData = () => {
-    window.location.reload();
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllTypes();
+      setTypes(data || []);
+    } catch (error) {
+      console.error("Error loading types:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const filteredTypes = types.filter((type) => {
+    const searchLower = searchTerm.toLowerCase();
+    const nameMatch = type.typeName?.toLowerCase().includes(searchLower);
+    const idMatch = type._id?.toString().toLowerCase().includes(searchLower);
+
+    return nameMatch || idMatch;
+  });
+
   const handleSaveType = async () => {
+    if (!newTypeData.typeName || !newTypeData.maxSpeed || !newTypeData.fuelCapacity) {
+      return alert("נא למלא את כל השדות");
+    }
+
     try {
       await addNewType(newTypeData);
       alert("סוג המטוס נוסף בהצלחה :)");
       setIsAddModalOpen(false);
-      refreshData();
       setNewTypeData({ typeName: '', maxSpeed: '', fuelCapacity: '' });
+      fetchData();
     } catch (error) {
       alert(error.message);
     }
@@ -30,20 +57,38 @@ function AircraftsTypes() {
   return (
     <>
       <NavBar />
-      <h1 className="title aircraftsTypesTitle">
-        סוגי מטוסים
-      </h1>
-
-      <Table
-        columns={["מספר זיהוי", "שם הדגם", "מהירות מקסימלית", "קיבולת דלק"]}
-        rows={typesData}
-      />
+      <h1 className="title aircraftsTypesTitle">סוגי מטוסים</h1>
 
       <div className="tableActions">
+        <div className="searchContainer">
+          <input
+            type="text"
+            className="searchInput"
+            placeholder="חפש דגם..."
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
+        </div>
+
         <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
           + הוספת סוג מטוס חדש
         </button>
       </div>
+
+      {loading ? (
+        <p className="loadinText">טוען נתונים...</p>
+      ) : (
+        filteredTypes.length > 0 ? (
+          <Table
+            columns={["מספר זיהוי", "שם הדגם", "מהירות מקסימלית", "קיבולת דלק"]}
+            rows={filteredTypes}
+          />
+        ) : (
+          <div className="noDataMessage">
+            <p>לא נמצאו סוגי מטוסים תואמים</p>
+          </div>
+        )
+      )}
 
       {isAddModalOpen && (
         <div className="modalOverlay">
@@ -54,21 +99,18 @@ function AircraftsTypes() {
                 placeholder="שם הדגם:"
                 value={newTypeData.typeName}
                 onChange={(event) => setNewTypeData({ ...newTypeData, typeName: event.target.value })}
-                required
               />
               <input
-                placeholder="מהירות מקסימלית (קמ''ש)"
+                placeholder="מהירות מקסימלית (קמ''ש):"
                 type="number"
                 value={newTypeData.maxSpeed}
                 onChange={(event) => setNewTypeData({ ...newTypeData, maxSpeed: event.target.value })}
-                required
               />
               <input
-                placeholder="קיבולת דלק (ליטרים)"
+                placeholder="קיבולת דלק (ליטרים):"
                 type="number"
                 value={newTypeData.fuelCapacity}
                 onChange={(event) => setNewTypeData({ ...newTypeData, fuelCapacity: event.target.value })}
-                required
               />
             </div>
             <div className="modalActions">

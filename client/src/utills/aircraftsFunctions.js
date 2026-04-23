@@ -53,7 +53,7 @@ export const getAircraftByName = async (aircraftName) => {
     }
 }
 
-export const deleteAircraftFromApi = async (aircraftId) => {
+export const deleteAircraftById = async (aircraftId) => {
     try {
         const response = await fetch(`http://localhost:5010/api/aircrafts/${aircraftId}`, {
             method: 'DELETE',

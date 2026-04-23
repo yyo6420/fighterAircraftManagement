@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import Table from "../components/Table.jsx";
-import { addNewAircraft, getAllAircrafts, deleteAircraftFromApi } from "../utills/aircraftsFunctions.js";
+import { addNewAircraft, getAllAircrafts, deleteAircraftById } from "../utills/aircraftsFunctions.js";
 
 function AircraftsPool() {
   const [aircrafts, setAircrafts] = useState([]);
@@ -57,7 +57,7 @@ function AircraftsPool() {
     if (!window.confirm("האם אתה בטוח שברצונך למחוק את המטוס מהמאגר?")) return;
 
     try {
-      await deleteAircraftFromApi(id);
+      await deleteAircraftById(id);
       alert("המטוס הוסר בהצלחה");
       fetchData();
     } catch (error) {
