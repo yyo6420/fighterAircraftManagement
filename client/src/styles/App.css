@@ -138,6 +138,10 @@
     color: #5d6d7e;
 }
 
+.loadinText {
+    text-align: center;
+}
+
 .tableDiv {
     display: flex;
     flex-direction: column;
@@ -319,6 +323,11 @@ td .deleteBtn {
     max-width: 1200px;
     direction: rtl;
     background: rgba(154, 169, 70, 0.1);
+}
+
+.searchContainer {
+    display: flex;
+    gap: 0.5rem
 }
 
 .addFlightButton {

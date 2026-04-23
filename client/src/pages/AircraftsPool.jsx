@@ -30,7 +30,14 @@ function AircraftsPool() {
   }, []);
 
   const filteredAircrafts = aircrafts.filter((aircraft) => {
-    return aircraft.aircraftName.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchLower = searchTerm.toLowerCase();
+
+    const nameMatch = aircraft.aircraftName?.toLowerCase().includes(searchLower);
+
+    const idMatch = aircraft._id?.toString().toLowerCase().includes(searchLower) ||
+      aircraft.id?.toString().toLowerCase().includes(searchLower);
+
+    return nameMatch || idMatch;
   });
 
   const handleSaveAircraft = async () => {
@@ -59,7 +66,7 @@ function AircraftsPool() {
           <input
             type="text"
             className="searchInput"
-            placeholder="חפש מטוס לפי שם..."
+            placeholder="חפש מטוס..."
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
           />
@@ -71,7 +78,7 @@ function AircraftsPool() {
       </div>
 
       {loading ? (
-        <p style={{ textAlign: "center" }}>טוען נתונים...</p>
+        <p className="loadinText">טוען נתונים...</p>
       ) : (
         filteredAircrafts.length > 0 ? (
           <Table
@@ -84,8 +91,6 @@ function AircraftsPool() {
           </div>
         )
       )}
-
-
 
       {isAddModalOpen && (
         <div className="modalOverlay">
