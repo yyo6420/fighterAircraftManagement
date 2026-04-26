@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar.jsx";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { getAllflights } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -16,22 +18,45 @@ const tacticalTargetIcon = L.divIcon({
     className: 'tacticalTargetIcon',
     html: '<div class="tacticalCrosshair"><div class="crosshairLines"></div></div>',
     iconSize: [30, 30],
-    iconAnchor: [15, 15]
+    iconAnchor: [15, 15],
+    popupAnchor: [0, -15]
 });
 
 
 function Map() {
     const baseStation = [31.839, 34.818];
+    const [flights, setFlights] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
-    const attackTargets = [
-        { id: 1, name: "נמל ביירות", coords: [33.901, 35.518], info: "יעד לוגיסטי אסטרטגי" },
-        { id: 2, name: "שדה תעופה דמשק", coords: [33.411, 36.514], info: "צומת העברות נשק" },
-        { id: 3, name: "נמל לטקיה", coords: [35.531, 35.787], info: "בסיס אספקה ימי" },
-        { id: 4, name: "מתקן נתנז", coords: [33.722, 51.727], info: "יעד תשתית קריטי (מעגל 3)" },
-        { id: 5, name: "נמל באנדר עבאס", coords: [27.150, 56.200], info: "שליטה על המפרץ" },
-        { id: 6, name: "כור אראק", coords: [34.372, 49.241], info: "מתקן מים כבדים" },
-        { id: 7, name: "נמל חודיידה", coords: [14.836, 42.940], info: "בסיס לוגיסטי דרומי" }
-    ];
+    const isFlightActive = (takeoff, landing) => {
+        const now = new Date();
+        const takeoffDate = new Date(takeoff);
+        const landingDate = new Date(landing);
+
+        return now >= takeoffDate && now <= landingDate;
+    };
+
+    useEffect(() => {
+        const fetchFlights = async () => {
+            const data = await getAllflights();
+            if (data) {
+                setFlights(data);
+            }
+            setLoading(false);
+        };
+        fetchFlights();
+    }, []);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 60000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    if (loading) return <div className="loadinText">טוען נתונים מבצעיים...</div>;
 
     return (
         <>
@@ -39,38 +64,42 @@ function Map() {
             <h1 className="title mapTitle">מפה</h1>
 
             <div className="tableStyleMapWrapper">
-                <MapContainer
-                    center={baseStation}
-                    zoom={5}
-                    className="actualLeafletMap"
-                >
+                <MapContainer center={baseStation} zoom={5} className="actualLeafletMap">
                     <TileLayer
-                        attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+                        attribution='&copy; Esri'
                         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                     />
 
                     <Marker position={baseStation} icon={homeBaseIcon}>
-                        <Popup>
-                            <b>בסיס אם - תל נוף</b> <br />
-                            מרכז פיקוד ושליטה.
-                        </Popup>
+                        <Popup><b>בסיס תל נוף</b></Popup>
                     </Marker>
 
-                    {attackTargets.map((target) => (
-                        <Marker
-                            key={target.id}
-                            position={target.coords}
-                            icon={tacticalTargetIcon}
-                        >
-                            <Popup>
-                                <div className="popupDiv">
-                                    <b>מטרה: {target.name}</b> <br />
-                                    <i>נ"צ: {target.coords[0].toFixed(3)}, {target.coords[1].toFixed(3)}</i> <br />
-                                    {target.info}
-                                </div>
-                            </Popup>
-                        </Marker>
-                    ))}
+                    {flights.filter(f => isFlightActive(f.takeoffTime, f.landingTime)).length === 0 && (
+                        <div className="no-flights-alert">
+                            אין פעילות מבצעית בשעה זו
+                        </div>
+                    )}
+
+                    {flights
+                        .filter(flight => isFlightActive(flight.takeoffTime, flight.landingTime))
+                        .map((flight) => (
+                            <Marker
+                                key={flight._id}
+                                position={[parseFloat(flight.latitude), parseFloat(flight.longitude)]}
+                                icon={tacticalTargetIcon}
+                            >
+                                <Popup>
+                                    <div className="popupDiv">
+                                        <b>סטטוס: בביצוע ⚡</b><br />
+                                        <b>מזהה כלי טיס:</b> {flight.aircraftId.slice(-6)} <br />
+                                        <b>זמן המראה:</b> {new Date(flight.takeoffTime).toLocaleTimeString('he-IL')} <br />
+                                        <b>נחיתה משוערת:</b> {new Date(flight.landingTime).toLocaleTimeString('he-IL')} <br />
+                                        <hr />
+                                        <i>נ"צ: {flight.latitude}, {flight.longitude}</i>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        ))}
                 </MapContainer>
             </div>
         </>
