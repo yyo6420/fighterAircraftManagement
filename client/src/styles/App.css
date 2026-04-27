@@ -686,3 +686,8 @@ td .deleteBtn {
     direction: rtl;
     padding: 5px;
 }
+
+.aircraftIcon {
+    background: none !important;
+    border: none !important;
+}

@@ -111,3 +111,20 @@ export const deleteFlight = async (flightId) => {
         throw error;
     }
 };
+
+export const getInterpolatedPosition = (base, target, takeoff, landing, currentTime) => {
+    const now = currentTime ? new Date(currentTime) : new Date();
+    const start = new Date(takeoff);
+    const end = new Date(landing);
+
+    const totalDuration = end - start;
+
+    if (totalDuration <= 0) return target;
+
+    const progress = Math.max(0, Math.min(1, (now - start) / totalDuration));
+
+    const lat = base[0] + (target[0] - base[0]) * progress;
+    const lng = base[1] + (target[1] - base[1]) * progress;
+
+    return [lat, lng];
+};

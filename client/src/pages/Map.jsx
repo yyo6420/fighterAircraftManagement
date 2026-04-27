@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import NavBar from "../components/NavBar.jsx";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import { getAllflights } from "../utills/flightsFunctions.js";
+import { getAllflights, getInterpolatedPosition } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -22,6 +22,17 @@ const tacticalTargetIcon = L.divIcon({
     popupAnchor: [0, -15]
 });
 
+const aircraftIcon = L.divIcon({
+    className: 'aircraftIcon',
+    html: `
+        <svg  width="30" height="30" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21,16L21,14L13,9L13,3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5L10,9L2,14L2,16L10,13.5L10,19L8,20.5L8,22L11.5,21L15,22L15,20.5L13,19L13,13.5L21,16Z" />
+        </svg>
+    `,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    popupAnchor: [0, -15]
+});
 
 function Map() {
     const baseStation = [31.839, 34.818];
@@ -51,7 +62,7 @@ function Map() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
-        }, 60000);
+        }, 5000);
 
         return () => clearInterval(timer);
     }, []);
@@ -84,34 +95,55 @@ function Map() {
                     {flights
                         .filter(flight => isFlightActive(flight.takeoffTime, flight.landingTime))
                         .map((flight) => {
-                            const aircraftPosition = [parseFloat(flight.latitude), parseFloat(flight.longitude)];
+                            const targetPosition = [parseFloat(flight.latitude), parseFloat(flight.longitude)];
+                            const currentAircraftPos = getInterpolatedPosition(
+                                baseStation,
+                                targetPosition,
+                                flight.takeoffTime,
+                                flight.landingTime,
+                                currentTime
+                            );
 
                             return (
                                 <Fragment key={flight._id}>
                                     <Marker
-                                        position={aircraftPosition}
+                                        position={currentAircraftPos}
+                                        icon={aircraftIcon}
+                                    >
+                                        <Popup>
+                                            <div className="popupDiv">
+                                                <b>כלי טיס בדרך ליעד ✈️</b><br />
+                                                <b>מזהה:</b> {flight.aircraftId.slice(-6)}
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+
+                                    <Marker
+                                        position={targetPosition}
                                         icon={tacticalTargetIcon}
                                     >
                                         <Popup>
                                             <div className="popupDiv">
-                                                <b>סטטוס: בביצוע ⚡</b><br />
-                                                <b>מזהה כלי טיס:</b> {flight.aircraftId.slice(-6)} <br />
-                                                <b>זמן המראה:</b> {new Date(flight.takeoffTime).toLocaleTimeString('he-IL')} <br />
-                                                <b>נחיתה משוערת:</b> {new Date(flight.landingTime).toLocaleTimeString('he-IL')} <br />
+                                                <b>מטרה טקטית</b><br />
                                                 <hr />
-                                                <i>נ"צ: {flight.latitude}, {flight.longitude}</i>
+                                                <b>נ"צ:</b> {targetPosition[0].toFixed(4)}, {targetPosition[1].toFixed(4)}
                                             </div>
                                         </Popup>
                                     </Marker>
 
                                     <Polyline
-                                        positions={[baseStation, aircraftPosition]}
+                                        positions={[baseStation, targetPosition]}
                                         pathOptions={{
                                             color: 'red',
                                             weight: 2,
-                                            dashArray: '5, 10',
+                                            dashArray: '10, 10',
                                             opacity: 0.6
                                         }}
+                                    />
+
+                                    <Polyline
+                                        positions={[baseStation, currentAircraftPos]}
+                                        pathOptions={{ color: 'green', weight: 3, opacity: 0.8 }}
                                     />
                                 </Fragment>
                             );
