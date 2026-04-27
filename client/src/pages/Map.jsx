@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import NavBar from "../components/NavBar.jsx";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { getAllflights } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -83,24 +83,40 @@ function Map() {
 
                     {flights
                         .filter(flight => isFlightActive(flight.takeoffTime, flight.landingTime))
-                        .map((flight) => (
-                            <Marker
-                                key={flight._id}
-                                position={[parseFloat(flight.latitude), parseFloat(flight.longitude)]}
-                                icon={tacticalTargetIcon}
-                            >
-                                <Popup>
-                                    <div className="popupDiv">
-                                        <b>סטטוס: בביצוע ⚡</b><br />
-                                        <b>מזהה כלי טיס:</b> {flight.aircraftId.slice(-6)} <br />
-                                        <b>זמן המראה:</b> {new Date(flight.takeoffTime).toLocaleTimeString('he-IL')} <br />
-                                        <b>נחיתה משוערת:</b> {new Date(flight.landingTime).toLocaleTimeString('he-IL')} <br />
-                                        <hr />
-                                        <i>נ"צ: {flight.latitude}, {flight.longitude}</i>
-                                    </div>
-                                </Popup>
-                            </Marker>
-                        ))}
+                        .map((flight) => {
+                            const aircraftPosition = [parseFloat(flight.latitude), parseFloat(flight.longitude)];
+
+                            return (
+                                <Fragment key={flight._id}>
+                                    <Marker
+                                        position={aircraftPosition}
+                                        icon={tacticalTargetIcon}
+                                    >
+                                        <Popup>
+                                            <div className="popupDiv">
+                                                <b>סטטוס: בביצוע ⚡</b><br />
+                                                <b>מזהה כלי טיס:</b> {flight.aircraftId.slice(-6)} <br />
+                                                <b>זמן המראה:</b> {new Date(flight.takeoffTime).toLocaleTimeString('he-IL')} <br />
+                                                <b>נחיתה משוערת:</b> {new Date(flight.landingTime).toLocaleTimeString('he-IL')} <br />
+                                                <hr />
+                                                <i>נ"צ: {flight.latitude}, {flight.longitude}</i>
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+
+                                    <Polyline
+                                        positions={[baseStation, aircraftPosition]}
+                                        pathOptions={{
+                                            color: 'red',
+                                            weight: 2,
+                                            dashArray: '5, 10',
+                                            opacity: 0.6
+                                        }}
+                                    />
+                                </Fragment>
+                            );
+                        })
+                    }
                 </MapContainer>
             </div>
         </>
