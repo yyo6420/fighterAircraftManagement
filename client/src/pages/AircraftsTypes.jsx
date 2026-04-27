@@ -66,6 +66,24 @@ function AircraftsTypes() {
     }
   };
 
+  const typesColumns = [
+    {
+      header: "מספר זיהוי",
+      key: "_id"
+    },
+    , {
+      header: "שם הדגם",
+      key: "typeName"
+    },
+    {
+      header: "מהירות מקסימלית",
+      key: "maxSpeedKph"
+    }, {
+      header: "קיבולת דלק",
+      key: "fuelCapacityLiters"
+    }
+  ]
+
   return (
     <>
       <NavBar />
@@ -92,7 +110,7 @@ function AircraftsTypes() {
       ) : (
         filteredTypes.length > 0 ? (
           <Table
-            columns={["מספר זיהוי", "שם הדגם", "מהירות מקסימלית", "קיבולת דלק", "מחק סוג"]}
+            columns={typesColumns}
             rows={filteredTypes}
             onDelete={handleDeleteType}
           />

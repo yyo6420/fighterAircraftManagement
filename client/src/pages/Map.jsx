@@ -56,7 +56,7 @@ function Map() {
         return () => clearInterval(timer);
     }, []);
 
-    if (loading) return <div className="loadinText">טוען נתונים מבצעיים...</div>;
+    if (loading) return <div className="loadinText">טוען נתונים...</div>;
 
     return (
         <>
@@ -64,6 +64,13 @@ function Map() {
             <h1 className="title mapTitle">מפה</h1>
 
             <div className="tableStyleMapWrapper">
+
+                {flights.filter(f => isFlightActive(f.takeoffTime, f.landingTime)).length === 0 && (
+                    <div className="no-flights-alert">
+                        אין פעילות מבצעית בשעה זו
+                    </div>
+                )}
+
                 <MapContainer center={baseStation} zoom={5} className="actualLeafletMap">
                     <TileLayer
                         attribution='&copy; Esri'
@@ -73,12 +80,6 @@ function Map() {
                     <Marker position={baseStation} icon={homeBaseIcon}>
                         <Popup><b>בסיס תל נוף</b></Popup>
                     </Marker>
-
-                    {flights.filter(f => isFlightActive(f.takeoffTime, f.landingTime)).length === 0 && (
-                        <div className="no-flights-alert">
-                            אין פעילות מבצעית בשעה זו
-                        </div>
-                    )}
 
                     {flights
                         .filter(flight => isFlightActive(flight.takeoffTime, flight.landingTime))

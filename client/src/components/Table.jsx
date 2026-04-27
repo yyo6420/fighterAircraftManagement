@@ -42,35 +42,40 @@ function Table({ columns, rows, refreshData, onDelete }) {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     };
 
+    const keys = columns.map((c) => c.key)
+
     return (
         <div className="tableDiv">
             <table>
                 <thead>
                     <tr>
                         {columns.map((column, index) => (
-                            <th key={index}>{column}</th>
+                            <th key={index}>{column.header}</th>
                         ))}
+                        <th key="delete">מחיקה</th>
                     </tr>
                 </thead>
                 <tbody>
                     {rows.map((row, rowIndex) => {
-                        const cells = Object.values(row);
                         return (
                             <tr key={row._id || rowIndex}>
-                                {cells.map((cell, cellIndex) => (
-                                    <td key={cellIndex}>
-                                        {cell ? (
-                                            formatDateTime(cell)
-                                        ) : (
-                                            <button
-                                                className="tableButton"
-                                                onClick={() => handleOpenModal(row._id)}
-                                            >
-                                                עדכון שעת נחיתה
-                                            </button>
-                                        )}
-                                    </td>
-                                ))}
+                                {keys.map((key, cellIndex) => {
+                                    const cellValue = row[key]
+                                        return(
+                                            <td key={cellIndex}>
+                                                {cellValue ? (
+                                                    formatDateTime(cellValue)
+                                                ) : (
+                                                    <button
+                                                        className="tableButton"
+                                                        onClick={() => handleOpenModal(row._id)}
+                                                    >
+                                                        עדכון שעת נחיתה
+                                                    </button>
+                                                )}
+                                            </td>
+                                        )
+                                })}
 
                                 {onDelete && (
                                     <td>
@@ -78,7 +83,7 @@ function Table({ columns, rows, refreshData, onDelete }) {
                                             className="deleteBtn"
                                             onClick={() => onDelete(row._id)}
                                         >
-                                            <Trash2 size={18}/>
+                                            <Trash2 size={18} />
                                         </button>
                                     </td>
                                 )}

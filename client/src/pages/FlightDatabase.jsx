@@ -82,6 +82,33 @@ function FlightDatabase() {
     }
   };
 
+  const flightsColomns = [
+    {
+      header: "מספר זיהוי טיסה",
+      key: "_id"
+    },
+    {
+      header: "מספר זיהוי מטוס",
+      key: "aircraftId"
+    },
+    {
+      header: "שעת המראה",
+      key: "takeoffTime"
+    },
+    {
+      header: "שעת נחיתה",
+      key: "landingTime"
+    },
+    {
+      header: "אורך",
+      key: "longitude"
+    },
+    {
+      header: "רוחב",
+      key: "latitude"
+    }
+  ]
+
   return (
     <>
       <NavBar />
@@ -123,7 +150,7 @@ function FlightDatabase() {
 
       {filteredFlights.length > 0 ? (
         <Table
-          columns={["מספר זיהוי טיסה", "מספר זיהוי מטוס", "שעת המראה", "שעת נחיתה", "אורך", "רוחב", "מחיקת טיסה"]}
+          columns={flightsColomns}
           rows={filteredFlights}
           onDelete={handleDeleteFlight}
         />

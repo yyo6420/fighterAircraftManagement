@@ -65,6 +65,20 @@ function AircraftsPool() {
     }
   };
 
+  const aircraftsColumns = [
+    {
+      header: "מספר זיהוי",
+      key: "_id"
+    },
+    {
+      header: "שם המטוס",
+      key: "aircraftName"
+    },
+    {
+      header: "סוג מטוס",
+      key: "aircraftType"
+    }]
+
   return (
     <>
       <NavBar />
@@ -91,7 +105,7 @@ function AircraftsPool() {
       ) : (
         filteredAircrafts.length > 0 ? (
           <Table
-            columns={["מספר זיהוי", "שם המטוס", "סוג מטוס", "מחק מטוס"]}
+            columns={aircraftsColumns}
             rows={filteredAircrafts}
             onDelete={handleDelete}
           />
