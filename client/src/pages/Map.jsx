@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import NavBar from "../components/NavBar.jsx";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from "react-leaflet";
 import { getAllflights, getInterpolatedPosition } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -39,6 +39,10 @@ function Map() {
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [selectedFlightId, setSelectedFlightId] = useState(null);
+    const [radiusDistance, setRadiusDistance] = useState(1000);
+
 
     const isFlightActive = (takeoff, landing) => {
         const now = new Date();
@@ -106,51 +110,90 @@ function Map() {
 
                             return (
                                 <Fragment key={flight._id}>
-                                    <Marker
-                                        position={currentAircraftPos}
-                                        icon={aircraftIcon}
-                                    >
+                                    {selectedFlightId === flight._id && (
+                                        <Circle
+                                            center={targetPosition}
+                                            radius={radiusDistance}
+                                            pathOptions={{
+                                                color: '#00FF00',
+                                                fillColor: '#00FF00',
+                                                fillOpacity: 0.1,
+                                                dashArray: '2, 6',
+                                                weight: 2,
+                                                lineCap: 'butt'
+                                            }}
+                                        />
+                                    )}
+                                    <Marker position={currentAircraftPos} icon={aircraftIcon}>
                                         <Popup>
                                             <div className="popupDiv">
-                                                <b>כלי טיס בדרך ליעד ✈️</b><br />
+                                                <b>מטוס בדרך ליעד</b><br />
                                                 <b>מזהה:</b> {flight.aircraftId.slice(-6)}
                                             </div>
                                         </Popup>
                                     </Marker>
 
-                                    <Marker
-                                        position={targetPosition}
-                                        icon={tacticalTargetIcon}
-                                    >
+                                    <Marker position={targetPosition} icon={tacticalTargetIcon}>
                                         <Popup>
                                             <div className="popupDiv">
                                                 <b>מטרה טקטית</b><br />
                                                 <hr />
-                                                <b>נ"צ:</b> {targetPosition[0].toFixed(4)}, {targetPosition[1].toFixed(4)}
+                                                <b>נ"צ:</b> {targetPosition[1].toFixed(4)}, {targetPosition[0].toFixed(4)}
+                                                <hr />
+                                                <div className="modalActions">
+                                                    <button className="popupButton popupSearchFlightsButton"
+                                                        onClick={() => {
+                                                            setSelectedFlightId(flight._id);
+                                                            setIsAddModalOpen(true);
+                                                        }}>
+                                                        חיפוש מטוסים קרובים
+                                                    </button>
+
+                                                    {selectedFlightId === flight._id && (
+                                                        <button className="popupButton popupCancelButton"
+                                                            onClick={() => {
+                                                                setSelectedFlightId(null);
+                                                                setRadiusDistance(1000);
+                                                            }}>
+                                                            ביטול רדיוס
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </div>
                                         </Popup>
                                     </Marker>
 
-                                    <Polyline
-                                        positions={[baseStation, targetPosition]}
-                                        pathOptions={{
-                                            color: 'red',
-                                            weight: 2,
-                                            dashArray: '10, 10',
-                                            opacity: 0.6
-                                        }}
-                                    />
-
-                                    <Polyline
-                                        positions={[baseStation, currentAircraftPos]}
-                                        pathOptions={{ color: 'green', weight: 3, opacity: 0.8 }}
-                                    />
+                                    <Polyline positions={[baseStation, targetPosition]} pathOptions={{ color: 'red', weight: 2, dashArray: '10, 10', opacity: 0.6 }} />
+                                    <Polyline positions={[baseStation, currentAircraftPos]} pathOptions={{ color: 'green', weight: 3, opacity: 0.8 }} />
                                 </Fragment>
                             );
                         })
                     }
                 </MapContainer>
             </div>
+            {isAddModalOpen && (
+                <div className="modalOverlay">
+                    <div className="modalContent">
+                        <h3>הגדרת טווח חיפוש</h3>
+                        <div className="addFlightForm">
+                            <label className="inputLabel">הגדרת רדיוס חיפוש:</label>
+                            <input
+                                className="searchInput"
+                                type="number"
+                                value={radiusDistance}
+                                onChange={(event) => setRadiusDistance(Number(event.target.value))}
+                                autoFocus
+                            />
+                        </div>
+                        <div className="modalActions">
+                            <button className="confirmBtn" onClick={() => setIsAddModalOpen(false)}>עדכן רדיוס</button>
+                            <button className="cancelBtn" onClick={() => {
+                                setIsAddModalOpen(false);
+                            }}>ביטול</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -137,7 +137,7 @@ function FlightDatabase() {
             className="searchInput"
             placeholder="סינון לפי מספר טיסה..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(event) => setSearchTerm(event.target.value)}
           />
 
           <button className="showAllBtn" onClick={handleShowAll}>נקה הכל</button>
@@ -193,12 +193,12 @@ function FlightDatabase() {
                 onChange={(event) => setNewFlightData({ ...newFlightData, landingTime: event.target.value })}
               />
               <input
-                placeholder="נקודת אורך (Longitude)"
-                onChange={(event) => setNewFlightData({ ...newFlightData, longitude: event.target.value })}
-              />
-              <input
                 placeholder="נקודת רוחב (Latitude)"
                 onChange={(event) => setNewFlightData({ ...newFlightData, latitude: event.target.value })}
+              />
+              <input
+                placeholder="נקודת אורך (Longitude)"
+                onChange={(event) => setNewFlightData({ ...newFlightData, longitude: event.target.value })}
               />
             </div>
             <div className="modalActions">

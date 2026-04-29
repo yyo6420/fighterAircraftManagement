@@ -116,11 +116,6 @@
 .mapButton:hover {
     background-color: #ffffff;
     color: #2c3e50;
-}
-
-.mapButton:hover {
-    background-color: #ffffff;
-    color: #2c3e50;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     filter: brightness(1.1);
@@ -300,29 +295,6 @@ td .deleteBtn {
     transform: scale(1.05);
 }
 
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modalContent {
-    background-color: #1a1a1a;
-    border: 2px solid #4b5320;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    color: #e0e0e0;
-    font-family: 'Courier New', Courier, monospace;
-}
-
 .modalInput {
     margin: 1.5rem 0;
     padding: 0.5rem;
@@ -334,23 +306,8 @@ td .deleteBtn {
 
 .modalActions {
     display: flex;
-    justify-content: space-around;
-}
-
-.confirmBtn {
-    background-color: #4b5320;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    cursor: pointer;
-}
-
-.cancelBtn {
-    background-color: #8b0000;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    cursor: pointer;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .tableActions {
@@ -397,20 +354,22 @@ td .deleteBtn {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 1000;
 }
 
 .modalContent {
     background-color: #1a1a1a;
-    border: 3px solid #4b5320;
+    border: 2px solid #4b5320;
     padding: 30px;
     width: 400px;
     text-align: center;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .modalContent h3 {
@@ -455,12 +414,6 @@ td .deleteBtn {
     padding: 10px;
 }
 
-.modalActions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
 .inputLabel {
     color: white;
     font-size: 0.8rem;
@@ -474,28 +427,29 @@ td .deleteBtn {
     background-color: #4b5320;
     color: white;
     border: none;
-    padding: 10px;
-    cursor: pointer;
+    padding: 0.5rem 1rem;
     font-weight: bold;
     transition: 0.2s;
 }
 
 .confirmBtn:hover {
     background-color: #5d6728;
+    cursor: pointer;
 }
 
 .cancelBtn {
     flex: 1;
-    background-color: #333;
+    background-color: #8b0000;
     color: #ccc;
     border: none;
-    padding: 10px;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .cancelBtn:hover {
-    background-color: #444;
+    background-color: #cc0e0e;
 }
 
 .searchArea {
@@ -685,6 +639,38 @@ td .deleteBtn {
     text-align: right;
     direction: rtl;
     padding: 5px;
+}
+
+.popupButton {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popupButton:active {
+    transform: scale(0.95);
+}
+
+.popupSearchFlightsButton {
+    background-color: #8eb542;
+    color: #331111;
+}
+
+.popupSearchFlightsButton:hover {
+    background-color: #a4ce4e;
+}
+
+.popupCancelButton {
+    background-color: #8b0000;
+    color: #ecf0f1;
+}
+
+.popupCancelButton:hover {
+    background-color: #cc0e0e;
 }
 
 .aircraftIcon {

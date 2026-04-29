@@ -101,7 +101,7 @@ function Table({ columns, rows, refreshData, onDelete }) {
                             type="datetime-local"
                             className="modalInput"
                             value={landingTime}
-                            onChange={(e) => setLandingTime(e.target.value)}
+                            onChange={(event) => setLandingTime(event.target.value)}
                         />
                         <div className="modalActions">
                             <button className="confirmBtn" onClick={handleUpdate}>עדכן שעה</button>
