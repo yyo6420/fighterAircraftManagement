@@ -112,6 +112,30 @@ export const deleteFlight = async (flightId) => {
     }
 };
 
+export const getFlightsByRadius = async (latitude, longitude, radius) => {
+    try {
+        const queryParams = new URLSearchParams({
+            latitude: latitude,
+            longitude: longitude,
+            radius: radius
+        });
+
+        const response = await fetch(`http://localhost:5010/api/flights/radius?${queryParams}`, {
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || "Failed to fetch flights in radius");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Fetch Radius Error:", error.message);
+        throw error;
+    }
+};
+
 export const getInterpolatedPosition = (base, target, takeoff, landing, currentTime) => {
     const now = currentTime ? new Date(currentTime) : new Date();
     const start = new Date(takeoff);
@@ -123,8 +147,8 @@ export const getInterpolatedPosition = (base, target, takeoff, landing, currentT
 
     const progress = Math.max(0, Math.min(1, (now - start) / totalDuration));
 
-    const lat = base[0] + (target[0] - base[0]) * progress;
-    const lng = base[1] + (target[1] - base[1]) * progress;
+    const latitude = base[0] + (target[0] - base[0]) * progress;
+    const longitude = base[1] + (target[1] - base[1]) * progress;
 
-    return [lat, lng];
+    return [latitude, longitude];
 };

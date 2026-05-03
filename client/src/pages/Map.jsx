@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import NavBar from "../components/NavBar.jsx";
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from "react-leaflet";
-import { getAllflights, getInterpolatedPosition } from "../utills/flightsFunctions.js";
+import { getAllflights, getFlightsByRadius, getInterpolatedPosition } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -42,6 +42,8 @@ function Map() {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [selectedFlightId, setSelectedFlightId] = useState(null);
     const [radiusDistance, setRadiusDistance] = useState(1000);
+    const [nearbyFlights, setNearbyFlights] = useState([]);
+    const [isNearbyResultsOpen, setIsNearbyResultsOpen] = useState(false);
 
 
     const isFlightActive = (takeoff, landing) => {
@@ -50,6 +52,18 @@ function Map() {
         const landingDate = new Date(landing);
 
         return now >= takeoffDate && now <= landingDate;
+    };
+
+    const handleFetchNearby = async (targetPos, radius) => {
+        try {
+            const [latitude, longitude] = targetPos;
+            const data = await getFlightsByRadius(latitude, longitude, radius);
+            console.log(data)
+            setNearbyFlights(data || []);
+            setIsNearbyResultsOpen(true);
+        } catch (error) {
+            alert("שגיאה בשליפת מטוסים קרובים");
+        }
     };
 
     useEffect(() => {
@@ -140,7 +154,7 @@ function Map() {
                                                 <hr />
                                                 <b>נ"צ:</b> {targetPosition[1].toFixed(4)}, {targetPosition[0].toFixed(4)}
                                                 <hr />
-                                                <div className="modalActions">
+                                                <div className="popupButtons">
                                                     <button className="popupButton popupSearchFlightsButton"
                                                         onClick={() => {
                                                             setSelectedFlightId(flight._id);
@@ -150,13 +164,21 @@ function Map() {
                                                     </button>
 
                                                     {selectedFlightId === flight._id && (
-                                                        <button className="popupButton popupCancelButton"
-                                                            onClick={() => {
-                                                                setSelectedFlightId(null);
-                                                                setRadiusDistance(1000);
-                                                            }}>
-                                                            ביטול רדיוס
-                                                        </button>
+                                                        <>
+                                                            <button className="popupButton popupCancelButton"
+                                                                onClick={() => {
+                                                                    setSelectedFlightId(null);
+                                                                    setRadiusDistance(1000);
+                                                                }}>
+                                                                ביטול רדיוס
+                                                            </button>
+                                                            <button
+                                                                className="popupButton popupDisplayAircraftsButton"
+                                                                onClick={() => handleFetchNearby(targetPosition, radiusDistance)}
+                                                            >
+                                                                הצגת מטוסים קרובים
+                                                            </button>
+                                                        </>
                                                     )}
                                                 </div>
                                             </div>
@@ -176,7 +198,9 @@ function Map() {
                     <div className="modalContent">
                         <h3>הגדרת טווח חיפוש</h3>
                         <div className="addFlightForm">
-                            <label className="inputLabel">הגדרת רדיוס חיפוש:</label>
+                            <label className="inputLabel">
+                                הגדרת רדיוס חיפוש:
+                            </label>
                             <input
                                 className="searchInput"
                                 type="number"
@@ -189,7 +213,40 @@ function Map() {
                             <button className="confirmBtn" onClick={() => setIsAddModalOpen(false)}>עדכן רדיוס</button>
                             <button className="cancelBtn" onClick={() => {
                                 setIsAddModalOpen(false);
+                                setSelectedFlightId(null);
                             }}>ביטול</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isNearbyResultsOpen && (
+                <div className="modalOverlay">
+                    <div className="modalContent resultsModal">
+                        <h3>מטוסים שאותרו ברדיוס</h3>
+                        <hr />
+                        <div className="nearbyFlightsList" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                            {nearbyFlights.length > 0 ? (
+                                nearbyFlights.map(f => (
+                                    <div key={f._id} className="nearbyFlightItem">
+                                        <p><b>מזהה מטוס:</b> {f.aircraftId.slice(-6)}</p>
+                                        <p><b>נ"צ נוכחי:</b> {f.latitude}, {f.longitude}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="noResultsContainer">
+                                    <p style={{ color: '#ffcc00', fontWeight: 'bold' }}>
+                                        ⚠️ לא אותרו כלי טיס בטווח המבצעי המוגדר.
+                                    </p>
+                                    <p style={{ fontSize: '0.9em' }}>
+                                        נסה להגדיל את רדיוס החיפוש או המתן להתקדמות המשימה.
+                                    </p>
+                                </div>
+                            )}
+
+                        </div>
+                        <div className="modalActions">
+                            <button className="confirmBtn" onClick={() => setIsNearbyResultsOpen(false)}>סגור</button>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,13 @@
 import express from "express";
 import asyncHandler from "../utills/asyncHandler.js";
-import { addFlight, deleteFlight, getAllFligts, getFlightById, getFlightsByAircraftId, updatedLandingTimeById } from "../services/flights.service.js";
+import {
+    addFlight, deleteFlight,
+    getAllFligts,
+    getFlightById,
+    getFlightsByAircraftId,
+    getFlightsWithinSearchRadius,
+    updatedLandingTimeById
+} from "../services/flights.service.js";
 
 const router = express.Router();
 
@@ -49,6 +56,18 @@ router.put("/land/:id", asyncHandler(async (request, response) => {
     const result = await updatedLandingTimeById(id, landingTime);
 
     response.send({ message: "Landing time updated succssfully", result });
+}));
+
+router.get("/radius", asyncHandler(async (request, response) => {
+    const { latitude, longitude, radius } = request.query;
+
+    if (!latitude || !longitude || !radius) {
+        throw new Error("you must type a latitude, longitude and radius")
+    }
+
+    const flights = await getFlightsWithinSearchRadius(latitude, longitude, radius);
+
+    response.send(flights);
 }));
 
 export default router;

@@ -34,7 +34,7 @@ export const updatedLandingTimeById = async (flightId, newLandingTime) => {
     if (!result) throw new Error("Flight not found");
 
     return result;
-}
+};
 
 export const getFlightById = async (flightId) => {
     if (!flightCollection) {
@@ -50,7 +50,7 @@ export const getFlightById = async (flightId) => {
     if (!result) throw new Error("Flight not found");
 
     return result;
-}
+};
 
 export const getFlightsByAircraftId = async (aircraftId) => {
     if (!flightCollection) {
@@ -64,7 +64,7 @@ export const getFlightsByAircraftId = async (aircraftId) => {
     }
 
     return result;
-}
+};
 
 export const getAllFligts = async (filter = {}) => {
     if (!flightCollection) {
@@ -75,7 +75,7 @@ export const getAllFligts = async (filter = {}) => {
     if (!result) throw new Error("The results are not found :(");
 
     return result;
-}
+};
 
 export const deleteFlight = async (flightId) => {
     if (!flightCollection) {
@@ -90,4 +90,44 @@ export const deleteFlight = async (flightId) => {
     if (result.deletedCount === 0) throw new Error("The results are not found :(");
 
     return result;
-}
+};
+
+const calculateDistanceBetweenPoints = (targetLatitude, targetLongitude, flightLatitude, flightLongitude) => {
+    const EARTH_RADIUS_METERS = 6371e3;
+    const targetLatRadian = (targetLatitude * Math.PI) / 180;
+    const flightLatRadian = (flightLatitude * Math.PI) / 180;
+    const latitudeDifference = ((flightLatitude - targetLatitude) * Math.PI) / 180;
+    const longitudeDifference = ((flightLongitude - targetLongitude) * Math.PI) / 180;
+
+    const calculationStep = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
+        Math.cos(targetLatRadian) * Math.cos(flightLatRadian) *
+        Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
+
+    const centralAngle = 2 * Math.atan2(Math.sqrt(calculationStep), Math.sqrt(1 - calculationStep));
+    return EARTH_RADIUS_METERS * centralAngle;
+};
+
+export const getFlightsWithinSearchRadius = async (targetLatitude, targetLongitude, maxDistance) => {
+    if (!flightCollection) {
+        flightCollection = db?.collection("flights");
+    }
+
+    const now = new Date().toISOString();
+
+    const activeFlights = await flightCollection.find({
+        takeoffTime: { $lte: now },
+        landingTime: { $gte: now }
+    }).toArray();
+
+    const nearbyFlights = activeFlights.filter(flight => {
+        const distanceToTarget = calculateDistanceBetweenPoints(
+            parseFloat(targetLatitude),
+            parseFloat(targetLongitude),
+            parseFloat(flight.latitude),
+            parseFloat(flight.longitude)
+        );
+        return distanceToTarget <= maxDistance;
+    });
+
+    return nearbyFlights;
+};
