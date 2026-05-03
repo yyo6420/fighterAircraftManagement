@@ -112,22 +112,26 @@ export const getFlightsWithinSearchRadius = async (targetLatitude, targetLongitu
         flightCollection = db?.collection("flights");
     }
 
-    const now = new Date().toISOString();
+    const now = new Date();
 
-    const activeFlights = await flightCollection.find({
-        takeoffTime: { $lte: now },
-        landingTime: { $gte: now }
-    }).toArray();
+    const allFlights = await flightCollection.find({}).toArray();
 
-    const nearbyFlights = activeFlights.filter(flight => {
+    const activeAndNearby = allFlights.filter(flight => {
+        const takeoff = new Date(flight.takeoffTime);
+        const landing = new Date(flight.landingTime);
+
+        const isActive = now >= takeoff && now <= landing;
+        if (!isActive) return false;
+
         const distanceToTarget = calculateDistanceBetweenPoints(
             parseFloat(targetLatitude),
             parseFloat(targetLongitude),
             parseFloat(flight.latitude),
             parseFloat(flight.longitude)
         );
+
         return distanceToTarget <= maxDistance;
     });
 
-    return nearbyFlights;
+    return activeAndNearby;
 };
