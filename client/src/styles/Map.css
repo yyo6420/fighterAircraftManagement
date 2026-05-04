@@ -15,6 +15,16 @@
     overflow: hidden;
 }
 
+.mapButton svg {
+    transition: transform 0.3s ease;
+}
+
+.mapButton:hover svg {
+    transform: scale(1.2) rotate(-10deg);
+    color: #e74c3c;
+}
+
+
 .noFlightsAlert {
     padding: 0.2rem;
     font-weight: bold;
@@ -65,12 +75,12 @@
     color: #4CAF50;
 }
 
-.popupCancelButton {
+.popupCancelRdiusButton {
     background-color: #f0ad4e;
     color: #ecf0f1;
 }
 
-.popupCancelButton:hover {
+.popupCancelRdiusButton:hover {
     color: #f0ad4e;
 }
 
@@ -83,12 +93,12 @@
     color: #2196F3;
 }
 
-.popupcancelButtton {
+.popupcancelMarkerButton {
     background-color: #d9534f;
     color: white;
 }
 
-.popupcancelButtton:hover {
+.popupcancelMarkerButton:hover {
     color: #d9534f;
 }
 
@@ -162,7 +172,7 @@
     margin-top: 15px;
 }
 
-.noResultsWorring {
+.noResultsWoring {
     color: #ffcc00;
     font-weight: bold;
 }
@@ -173,4 +183,97 @@
 
 .popupcloseButton {
     margin-top: 0.5rem;
+}
+
+.tacticalTargetIcon {
+    background: transparent;
+    border: none;
+    margin: 0 !important;
+}
+
+.tacticalCrosshair {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: -15px;
+    top: -15px;
+    transition: all 0.3s ease;
+}
+
+.tacticalTargetIcon:hover .tacticalCrosshair {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px red);
+}
+
+.tacticalCrosshair::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ff0000;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+    box-sizing: border-box;
+}
+
+.tacticalCrosshair::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 3px rgba(255, 0, 0, 0.9);
+}
+
+.crosshairLines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.crosshairLines::before,
+.crosshairLines::after {
+    content: '';
+    position: absolute;
+    background-color: #ff0000;
+}
+
+.crosshairLines::before {
+    top: -5px;
+    left: 50%;
+    width: 2px;
+    height: 40px;
+    transform: translateX(-50%);
+}
+
+.crosshairLines::after {
+    top: 50%;
+    left: -5px;
+    width: 40px;
+    height: 2px;
+    transform: translateY(-50%);
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: rgba(26, 26, 26, 0.9);
+    color: white;
+    border: 1px solid #4b5320;
+    border-radius: 4px;
+}
+
+.leaflet-popup-tip {
+    background-color: rgba(26, 26, 26, 0.9);
+}
+
+.aircraftIcon {
+    background: none !important;
+    border: none !important;
 }

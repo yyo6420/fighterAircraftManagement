@@ -1,0 +1,39 @@
+.flightDatabasetitle {
+    color: #5d6d7e;
+}
+
+.searchBtn,
+.showAllBtn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.searchArea {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.searchBtn {
+    background-color: #4a5d23;
+    color: #fff;
+    border: none;
+}
+
+.searchBtn:hover {
+    background-color: #5d752d;
+    box-shadow: 0 0 8px rgba(74, 93, 35, 0.6);
+}
+
+.showAllBtn {
+    background-color: transparent;
+    color: #8a9a5b;
+    border: 1px solid #8a9a5b;
+}
+
+.showAllBtn:hover {
+    background-color: rgba(138, 154, 91, 0.1);
+}

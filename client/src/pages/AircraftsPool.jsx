@@ -95,7 +95,7 @@ function AircraftsPool() {
           />
         </div>
 
-        <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
+        <button className="addObjectButton" onClick={() => setIsAddModalOpen(true)}>
           + הוספת מטוס חדש
         </button>
       </div>
@@ -133,8 +133,8 @@ function AircraftsPool() {
               />
             </div>
             <div className="modalActions">
-              <button className="confirmBtn" onClick={handleSaveAircraft}>שמור במערכת</button>
-              <button className="cancelBtn" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
+              <button className="confirmButton" onClick={handleSaveAircraft}>שמור במערכת</button>
+              <button className="cancelButton" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
             </div>
           </div>
         </div>

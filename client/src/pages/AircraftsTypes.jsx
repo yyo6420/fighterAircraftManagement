@@ -100,7 +100,7 @@ function AircraftsTypes() {
           />
         </div>
 
-        <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
+        <button className="addObjectButton" onClick={() => setIsAddModalOpen(true)}>
           + הוספת סוג מטוס חדש
         </button>
       </div>
@@ -145,8 +145,8 @@ function AircraftsTypes() {
               />
             </div>
             <div className="modalActions">
-              <button className="confirmBtn" onClick={handleSaveType}>שמור במערכת</button>
-              <button className="cancelBtn" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
+              <button className="confirmButton" onClick={handleSaveType}>שמור במערכת</button>
+              <button className="cancelButton" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
             </div>
           </div>
         </div>

@@ -128,7 +128,9 @@ function FlightDatabase() {
               </option>
             ))}
           </select>
-          <button className="searchBtn" onClick={handleFilter}>סנן</button>
+          <button className="searchBtn" onClick={handleFilter}>
+            סנן
+          </button>
 
           <span className="separator"> | </span>
 
@@ -143,7 +145,7 @@ function FlightDatabase() {
           <button className="showAllBtn" onClick={handleShowAll}>נקה הכל</button>
         </div>
 
-        <button className="addFlightButton" onClick={() => setIsAddModalOpen(true)}>
+        <button className="addObjectButton" onClick={() => setIsAddModalOpen(true)}>
           + תיעוד טיסה חדשה
         </button>
       </div>
@@ -202,8 +204,8 @@ function FlightDatabase() {
               />
             </div>
             <div className="modalActions">
-              <button className="confirmBtn" onClick={handleSaveFlight}>שמור במערכת</button>
-              <button className="cancelBtn" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
+              <button className="confirmButton" onClick={handleSaveFlight}>שמור במערכת</button>
+              <button className="cancelButton" onClick={() => setIsAddModalOpen(false)}>ביטול</button>
             </div>
           </div>
         </div>

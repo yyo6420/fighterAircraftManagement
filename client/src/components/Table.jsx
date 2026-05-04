@@ -104,8 +104,8 @@ function Table({ columns, rows, refreshData, onDelete }) {
                             onChange={(event) => setLandingTime(event.target.value)}
                         />
                         <div className="modalActions">
-                            <button className="confirmBtn" onClick={handleUpdate}>עדכן שעה</button>
-                            <button className="cancelBtn" onClick={handleCloseModal}>ביטול</button>
+                            <button className="confirmButton" onClick={handleUpdate}>עדכן שעה</button>
+                            <button className="cancelButton" onClick={handleCloseModal}>ביטול</button>
                         </div>
                     </div>
                 </div>

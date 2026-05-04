@@ -109,7 +109,7 @@ function Map() {
 
                             {selectedFlightId === "manual" && (
                                 <>
-                                    <button className="popupButton popupCancelButton"
+                                    <button className="popupButton popupCancelRdiusButton"
                                         onClick={(event) => {
                                             L.DomEvent.stopPropagation(event);
                                             setSelectedFlightId(null);
@@ -131,7 +131,7 @@ function Map() {
                             )}
 
                             <button
-                                className="popupButton popupcancelButtton"
+                                className="popupButton popupcancelMarkerButton"
                                 onClick={(event) => {
                                     L.DomEvent.stopPropagation(event);
                                     setPosition(null);
@@ -279,8 +279,8 @@ function Map() {
                             />
                         </div>
                         <div className="modalActions">
-                            <button className="confirmBtn" onClick={() => setIsAddModalOpen(false)}>עדכן רדיוס</button>
-                            <button className="cancelBtn" onClick={() => {
+                            <button className="confirmButton" onClick={() => setIsAddModalOpen(false)}>עדכן רדיוס</button>
+                            <button className="cancelButton" onClick={() => {
                                 setIsAddModalOpen(false);
                                 setSelectedFlightId(null);
                             }}>ביטול</button>
@@ -304,7 +304,7 @@ function Map() {
                                 ))
                             ) : (
                                 <div className="noResultsContainer">
-                                    <p className="noResultsWorring">
+                                    <p className="noResultsWoring">
                                         ⚠️ לא אותרו כלי טיס בטווח המבצעי המוגדר.
                                     </p>
                                     <p className="noResultsText">
@@ -315,7 +315,7 @@ function Map() {
 
                         </div>
                         <div className="modalActions">
-                            <button className="confirmBtn popupcloseButton" onClick={() => setIsNearbyResultsOpen(false)}>
+                            <button className="confirmButton popupcloseButton" onClick={() => setIsNearbyResultsOpen(false)}>
                                 סגור
                             </button>
                         </div>
