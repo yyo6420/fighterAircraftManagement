@@ -120,7 +120,7 @@ function AircraftsPool() {
         <div className="modalOverlay">
           <div className="modalContent">
             <h3>הזנת נתוני מטוס חדש</h3>
-            <div className="addFlightForm">
+            <div className="addingForm">
               <input
                 placeholder="שם המטוס:"
                 value={newAircraftData.aircraftName}

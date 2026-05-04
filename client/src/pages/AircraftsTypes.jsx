@@ -125,7 +125,7 @@ function AircraftsTypes() {
         <div className="modalOverlay">
           <div className="modalContent">
             <h3>הוספת סוג מטוס חדש</h3>
-            <div className="addFlightForm">
+            <div className="addingForm">
               <input
                 placeholder="שם הדגם:"
                 value={newTypeData.typeName}

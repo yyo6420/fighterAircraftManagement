@@ -169,10 +169,6 @@
     color: #5d6d7e;
 }
 
-.mapTitle {
-    color: #3b536b;
-}
-
 .loadinText {
     text-align: center;
 }
@@ -381,14 +377,14 @@ td .deleteBtn {
     padding-bottom: 10px;
 }
 
-.addFlightForm {
+.addingForm {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin: 20px 0;
 }
 
-.addFlightForm input {
+.addingForm input {
     background-color: #000;
     border: 1px solid #4b5320;
     color: blanchedalmond;
@@ -397,15 +393,15 @@ td .deleteBtn {
     outline: none;
 }
 
-.addFlightForm input:focus {
+.addingForm input:focus {
     border-color: blanchedalmond;
 }
 
-.addFlightForm input[type="datetime-local"] {
+.addingForm input[type="datetime-local"] {
     color-scheme: dark;
 }
 
-.addFlightForm select {
+.addingForm select {
     width: 100%;
     margin-bottom: 15px;
     background-color: #1a1a1a;
@@ -529,24 +525,6 @@ td .deleteBtn {
     letter-spacing: 1px;
 }
 
-.tableStyleMapWrapper {
-    width: 90%;
-    max-width: 1100px;
-    height: 500px;
-    margin: 0 auto;
-    border: 2px solid #4b5320;
-    border-radius: 4px;
-    padding: 2px;
-    background-color: #1a1a1a;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-}
-
-.actualLeafletMap {
-    height: 100%;
-    width: 100%;
-}
-
 .tacticalTargetIcon {
     background: transparent;
     border: none;
@@ -635,130 +613,7 @@ td .deleteBtn {
     background-color: rgba(26, 26, 26, 0.9);
 }
 
-.popupDiv {
-    text-align: right;
-    direction: rtl;
-    padding: 5px;
-}
-
-.popupButtons {
-    display: flex;
-    flex-direction: column;
-}
-
-.popupButton {
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.popupButton:active {
-    transform: scale(0.95);
-}
-
-.popupSearchFlightsButton {
-    background-color: #8eb542;
-    color: #331111;
-}
-
-.popupSearchFlightsButton:hover {
-    background-color: #a4ce4e;
-}
-
-.popupCancelButton {
-    background-color: #8b0000;
-    color: #ecf0f1;
-}
-
-.popupCancelButton:hover {
-    background-color: #cc0e0e;
-}
-
-.popupDisplayAircraftsButton {
-    background-color: #dfb73f;
-    color: #15528f;
-}
-
-.popupDisplayAircraftsButton:hover {
-    background-color: #15528f;
-    color: #dfb73f;
-}
-
 .aircraftIcon {
     background: none !important;
     border: none !important;
-}
-
-.nearbyFlightsList {
-    max-height: 350px;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    padding-left: 5px;
-}
-
-.nearbyFlightItem {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-}
-
-.nearbyFlightItem:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #ffcc00;
-    transform: translateX(-5px);
-}
-
-.nearbyFlightItem p {
-    margin: 4px 0;
-    color: #e0e0e0;
-    font-size: 0.95rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.nearbyFlightItem b {
-    color: #ffcc00;
-    margin-left: 5px;
-}
-
-.noResultsContainer {
-    text-align: center;
-    padding: 30px 15px;
-    background: rgba(255, 204, 0, 0.05);
-    border: 1px dashed rgba(255, 204, 0, 0.3);
-    border-radius: 8px;
-    margin-top: 15px;
-}
-
-.nearbyFlightsList::-webkit-scrollbar {
-    width: 6px;
-}
-
-.nearbyFlightsList::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.nearbyFlightsList::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
-}
-
-.nearbyFlightsList::-webkit-scrollbar-thumb:hover {
-    background: #ffcc00;
-}
-
-.resultsModal h3 {
-    color: #ffffff;
-    font-size: 1.4rem;
-    text-align: center;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #3d4a34;
-    padding-bottom: 10px;
 }

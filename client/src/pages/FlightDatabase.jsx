@@ -164,7 +164,7 @@ function FlightDatabase() {
         <div className="modalOverlay">
           <div className="modalContent tactical-theme">
             <h3>הזנת נתוני טיסה חדשה</h3>
-            <div className="addFlightForm">
+            <div className="addingForm">
               <label className="inputLabel">בחר מטוס:</label>
               <select
                 className="searchInput"

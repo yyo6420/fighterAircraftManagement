@@ -4,6 +4,7 @@ import FlightDatabase from './pages/FlightDatabase.jsx';
 import Map from "./pages/Map.jsx"
 import HomePage from './pages/HomePage.jsx';
 import './styles/App.css';
+import "./styles/Map.css"
 import { Routes, Route } from "react-router";
 
 function App() {

@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import NavBar from "../components/NavBar.jsx";
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMapEvents } from "react-leaflet";
 import { getAllflights, getFlightsByRadius, getInterpolatedPosition } from "../utills/flightsFunctions.js";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -44,7 +44,7 @@ function Map() {
     const [radiusDistance, setRadiusDistance] = useState(1000);
     const [nearbyFlights, setNearbyFlights] = useState([]);
     const [isNearbyResultsOpen, setIsNearbyResultsOpen] = useState(false);
-
+    const [position, setPosition] = useState(null);
 
     const isFlightActive = (takeoff, landing) => {
         const now = new Date();
@@ -58,12 +58,93 @@ function Map() {
         try {
             const [latitude, longitude] = targetPos;
             const data = await getFlightsByRadius(latitude, longitude, radius);
-            console.log(data)
             setNearbyFlights(data || []);
             setIsNearbyResultsOpen(true);
         } catch (error) {
             alert("שגיאה בשליפת מטוסים קרובים");
         }
+    };
+
+    const LocationMarker = () => {
+        const map = useMapEvents({
+            click(event) {
+                if (event.latlng) {
+                    setPosition(event.latlng);
+                    setSelectedFlightId(null);
+                    map.panTo(event.latlng, map.getZoom());
+                }
+            },
+        });
+
+        if (!position) return null;
+
+        return (
+            <Marker position={position} icon={homeBaseIcon} draggable eventHandlers={{
+                dragend: (event) => {
+                    const marker = event.target;
+                    const newPos = marker.getLatLng();
+                    setPosition(newPos);
+                    setSelectedFlightId(null);
+                }
+            }}>
+                <Popup>
+                    <div
+                        className="popupDiv"
+                        onMouseDown={(event) => L.DomEvent.stopPropagation(event)}
+                        onClick={(event) => L.DomEvent.stopPropagation(event)}
+                    >
+                        <b>נ"צ שנבחר ידנית</b><br />
+                        <hr />
+                        <b>נ"צ:</b> {position.lat.toFixed(4)}, {position.lng.toFixed(4)}
+                        <hr />
+                        <div className="popupButtons">
+                            <button className="popupButton popupSearchFlightsButton"
+                                onClick={(event) => {
+                                    L.DomEvent.stopPropagation(event);
+                                    setSelectedFlightId("manual");
+                                    setIsAddModalOpen(true);
+                                }}>
+                                חיפוש מטוסים קרובים
+                            </button>
+
+                            {selectedFlightId === "manual" && (
+                                <>
+                                    <button className="popupButton popupCancelButton"
+                                        onClick={(event) => {
+                                            L.DomEvent.stopPropagation(event);
+                                            setSelectedFlightId(null);
+                                            setRadiusDistance(1000);
+                                        }}>
+                                        ביטול רדיוס
+                                    </button>
+
+                                    <button
+                                        className="popupButton popupDisplayAircraftsButton"
+                                        onClick={(event) => {
+                                            L.DomEvent.stopPropagation(event);
+                                            handleFetchNearby([position.lat, position.lng], radiusDistance);
+                                        }}
+                                    >
+                                        הצגת מטוסים קרובים
+                                    </button>
+                                </>
+                            )}
+
+                            <button
+                                className="popupButton popupcancelButtton"
+                                onClick={(event) => {
+                                    L.DomEvent.stopPropagation(event);
+                                    setPosition(null);
+                                    setSelectedFlightId(null);
+                                }}
+                            >
+                                הסר סמן
+                            </button>
+                        </div>
+                    </div>
+                </Popup>
+            </Marker>
+        );
     };
 
     useEffect(() => {
@@ -95,7 +176,7 @@ function Map() {
             <div className="tableStyleMapWrapper">
 
                 {flights.filter(f => isFlightActive(f.takeoffTime, f.landingTime)).length === 0 && (
-                    <div className="no-flights-alert">
+                    <div className="noFlightsAlert">
                         אין פעילות מבצעית בשעה זו
                     </div>
                 )}
@@ -105,6 +186,22 @@ function Map() {
                         attribution='&copy; Esri'
                         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                     />
+
+                    <LocationMarker />
+
+                    {selectedFlightId === "manual" && position && (
+                        <Circle
+                            center={position}
+                            radius={radiusDistance}
+                            pathOptions={{
+                                color: '#00FF00',
+                                fillColor: '#00FF00',
+                                fillOpacity: 0.1,
+                                dashArray: '2, 6',
+                                weight: 2,
+                            }}
+                        />
+                    )}
 
                     <Marker position={baseStation} icon={homeBaseIcon}>
                         <Popup><b>בסיס תל נוף</b></Popup>
@@ -153,34 +250,6 @@ function Map() {
                                                 <b>מטרה טקטית</b><br />
                                                 <hr />
                                                 <b>נ"צ:</b> {targetPosition[1].toFixed(4)}, {targetPosition[0].toFixed(4)}
-                                                <hr />
-                                                <div className="popupButtons">
-                                                    <button className="popupButton popupSearchFlightsButton"
-                                                        onClick={() => {
-                                                            setSelectedFlightId(flight._id);
-                                                            setIsAddModalOpen(true);
-                                                        }}>
-                                                        חיפוש מטוסים קרובים
-                                                    </button>
-
-                                                    {selectedFlightId === flight._id && (
-                                                        <>
-                                                            <button className="popupButton popupCancelButton"
-                                                                onClick={() => {
-                                                                    setSelectedFlightId(null);
-                                                                    setRadiusDistance(1000);
-                                                                }}>
-                                                                ביטול רדיוס
-                                                            </button>
-                                                            <button
-                                                                className="popupButton popupDisplayAircraftsButton"
-                                                                onClick={() => handleFetchNearby(targetPosition, radiusDistance)}
-                                                            >
-                                                                הצגת מטוסים קרובים
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
                                             </div>
                                         </Popup>
                                     </Marker>
@@ -197,7 +266,7 @@ function Map() {
                 <div className="modalOverlay">
                     <div className="modalContent">
                         <h3>הגדרת טווח חיפוש</h3>
-                        <div className="addFlightForm">
+                        <div className="addingForm">
                             <label className="inputLabel">
                                 הגדרת רדיוס חיפוש:
                             </label>
@@ -225,7 +294,7 @@ function Map() {
                     <div className="modalContent resultsModal">
                         <h3>מטוסים שאותרו ברדיוס</h3>
                         <hr />
-                        <div className="nearbyFlightsList" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                        <div className="nearbyFlightsList">
                             {nearbyFlights.length > 0 ? (
                                 nearbyFlights.map(f => (
                                     <div key={f._id} className="nearbyFlightItem">
@@ -235,10 +304,10 @@ function Map() {
                                 ))
                             ) : (
                                 <div className="noResultsContainer">
-                                    <p style={{ color: '#ffcc00', fontWeight: 'bold' }}>
+                                    <p className="noResultsWorring">
                                         ⚠️ לא אותרו כלי טיס בטווח המבצעי המוגדר.
                                     </p>
-                                    <p style={{ fontSize: '0.9em' }}>
+                                    <p className="noResultsText">
                                         נסה להגדיל את רדיוס החיפוש או המתן להתקדמות המשימה.
                                     </p>
                                 </div>
@@ -246,7 +315,9 @@ function Map() {
 
                         </div>
                         <div className="modalActions">
-                            <button className="confirmBtn" onClick={() => setIsNearbyResultsOpen(false)}>סגור</button>
+                            <button className="confirmBtn popupcloseButton" onClick={() => setIsNearbyResultsOpen(false)}>
+                                סגור
+                            </button>
                         </div>
                     </div>
                 </div>
